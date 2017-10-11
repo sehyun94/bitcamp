@@ -15,7 +15,7 @@ public class Test15_10{
         
 //       ^배타적 논리곱
         result = v1 ^ v2;
-        System.out.println(java.lang.Integer.toBinaryString(result));
+         System.out.println(java.lang.Integer.toBinaryString(result));
         
     }
 }   
