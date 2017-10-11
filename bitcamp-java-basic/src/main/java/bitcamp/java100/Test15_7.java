@@ -1,4 +1,4 @@
-// ## 연산자 - 관계 연산자 
+
 package bitcamp.java100;
 
 public class Test15_7{

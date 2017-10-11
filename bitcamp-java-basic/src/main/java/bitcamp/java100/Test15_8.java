@@ -34,6 +34,16 @@ public class Test15_8{
         b1 = false;
         result = false & (b1 = true);
         System.out.printf("b1=%b, result=%b\n", b1, result);
+        
+// || vs | 
+        b1 = false;
+        result = true || (b1 = true);
+        System.out.printf("b1=%b, result=%b\n", b1, result);
+        
+        b1 = false;
+        result = true | (b1 = true);
+        System.out.printf("b1=%b, result=%b\n", b1, result);
+        
     }
 }    
 
