@@ -1,4 +1,76 @@
-/** #ver06 
+//: ## ver 07
+//: - 배열 응용 II
+//: ver-06에서 Score 객체를 배열에 저장하라!
+//: 
+//: 여러 명의 성적을 저장하고 다음과 같이 출력하라!
+//:
+//: 출력내용:
+//: ```
+//: 홍길동, 100,  90,  80, 270,  90.0
+//: 임꺽정,  80,  80,  80, 240,  80.0
+//: 유관순, 100, 100, 100, 300, 100.0
+//: ```
+
+
+public class App {
+
+    public static void main(String[] args) {
+        //Score 설계도에 따라 메모리를 준비
+        Score[] scores = {new Score(), new Score(), new Score()};
+        
+        // Score 클래스에 따로 분류된 메서드를 호출한다.
+        //- Score 클래스는 현재 App 클래스와 같은 패키지에 있기 때문에 전체패키지명을 적을 필요가 없다.
+        
+        Score.init(scores[0], "홍길동", 100, 90, 80);
+        Score.init(scores[1], "유관순", 80, 80, 80);
+        Score.init(scores[2], "임꺽정", 80, 90, 100);
+        //: 학생 성적을 출력한다.
+        for (Score s : scores) {
+            Score.print(s);
+        }
+    }
+}
+
+    /**
+    static void compute (Score score) {
+        for (int sub : score.subjects) {
+            score.sum += sub;
+        }
+        score.aver = score.sum / 3f;
+    }
+    static void print (Score score) {
+        System.out.printf("%-4s, %4d, %4d, %4d, %4d, %6.1f\n",  
+                score.name, score.subjects[0], score.subjects[1], 
+                score.subjects[2], score.sum, score.aver);
+        
+    }
+    
+    static void init (Score score, String name, int kor, int eng, int math) {
+        score.name = name;
+        score.subjects[0] = kor;
+        score.subjects[1] = eng;
+        score.subjects[2] = math;
+        compute(score);
+       
+    }
+    public static void main(String[] args) {
+       
+        Score[] scores = {new Score(), new Score(), new Score()};
+        
+        init(scores[0], "홍길동", 100, 90, 80);
+        init(scores[1], "유관순", 80, 80, 80);
+        init(scores[2], "임꺽정", 80, 90, 100);
+        
+        //: 학생 성적을 출력한다.
+        for (Score s : scores) {
+            print(s);
+        }
+    }
+}
+*/
+    
+/**
+* #ver06 
 * 배열 문법응x용 
 * 여러 명의 성적을 저장하고 다음과 같이 출력하라!
  * 출력내용:
@@ -6,17 +78,17 @@
  * 홍길동,  100,  90,  80,  270,  90.0
  * 임꺽정,   80,  80,  80,  240,  80.0
  * 유관순,  100, 100, 100,  300, 100.0
- */
+
 
 public class App{
     public static void main(String[]args)   {
         // 학생의 성적을 저장할 때 사용할 사용자 정의 데이터 타입을 만든다.
         // > 사용자 정의 데이터 타입은 데이터를 저장할 메모리를 설계하는 것이다.
-
+*/
         /**ver07 
         * 배열 응용2
         
-        */
+        
         class Score {
             String name;
             int[] subjects = new int[3];
@@ -69,7 +141,7 @@ public class App{
         
         
         
-        
+        */
         
         
         /** #ver06 
@@ -135,7 +207,6 @@ public class App{
          * 임꺽정,   80,  80,  80,  240,  80.0
          * 유관순,  100, 100, 100,  300, 100.0
          
-
         class Score {
             String name;
             int kor;
@@ -219,7 +290,6 @@ public class App{
         int math = 98 ;
         int sum = kor + eng + math ;
         float aver = sum / 3.0f ;
-
         System.out.printf("이름: %s\n", name);
         System.out.printf("국어: %d\n", kor);
         System.out.printf("영어: %d\n", eng);
@@ -253,7 +323,6 @@ public class App {
         int math = 98 ;
         int sum = kor + eng + math ;
         float aver = sum / 3.0f ;
-
         System.out.printf("이름: %s\n", name);
         System.out.printf("국어: %d\n", kor);
         System.out.printf("영어: %d\n", eng);
@@ -276,4 +345,7 @@ public class App {
         System.out.print("평균: ");
         System.out.println(100.0);
 */
+
+
+
 
