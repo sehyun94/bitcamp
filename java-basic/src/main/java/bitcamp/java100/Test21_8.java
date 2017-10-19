@@ -23,37 +23,34 @@ public class Test21_8 {
         class Info {
             String name;
             String email;
-            String phone;
-           
+            String number;
         }
-        ArrayList<Info> arr = new ArrayList<>();
-        
-        Console console = System.console();
-        do { 
-            Info i = new Info();
-            i.name = console.readLine("이름? ");
-            i.email = console.readLine("이메일? ");
-            i.phone =console.readLine("전화? ");
-            if (console.readLine("저장하시겠습니까? (y/n)").equals("y")) {
-                System.out.println("저장하였습니다.");
-                arr.add(i);     
-            }
-           
-        } while( console.readLine("계속하시겠습니까? (y/n)").equals("y"));
-        
-        for (int i = 0; i < arr.size(); i++) {
-            System.out.println(arr.get(i).name);
-            System.out.println(arr.get(i).email);
-            System.out.println(arr.get(i).phone);
             
-        }
+        ArrayList<Info> arr = new ArrayList();
+        Console c = System.console();
         
-
+        do {
+            Info i = new Info();
+            i.name = c.readLine("이름?");
+            i.email = c.readLine("이메일?");
+            i.number = c.readLine("전화?");
+            if(c.readLine("저장하시겠습니까?(y/n)").equals("y")) {
+                System.out.println("저장하였습니다.");
+                arr.add(i);
+            }
+        }
+            while(c.readLine("계속 입력하시겠습니까?(y/n)").equals("y")); 
+                System.out.println("===========================");
+            
                 
-       
+                for(int i = 0; i < arr.size(); i++) {
+                    System.out.printf("%s  %15s  %s\n",
+                    arr.get(i).name, arr.get(i).email, arr.get(i).number);        
+                }
+                
+
     }
 }
-     
-            
+
 
 

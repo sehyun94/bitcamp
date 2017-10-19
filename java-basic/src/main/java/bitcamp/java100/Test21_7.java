@@ -13,11 +13,12 @@ import java.io.Console;
 public class Test21_7 {
 
     public static void main(String[] args) {
-        
+     
+        Console c = System.console();
         String s;
-        StringBuffer b = new StringBuffer();
-        b.reverse();
-        System.out.println(b);
+        s = c.readLine("문자열?");
+        StringBuffer sb = new StringBuffer(s);
+        System.out.println(sb.reverse());
 ////        Console console = System.console();
 //        String s;
 //        StringBuffer b = new StringBuffer();

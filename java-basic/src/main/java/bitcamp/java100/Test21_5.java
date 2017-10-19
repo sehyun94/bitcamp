@@ -16,29 +16,45 @@ package bitcamp.java100;
 import java.io.Console;
 
 public class Test21_5 {
+    
+    static Console console;
+    
+    static void prepareInput() {
+        console = System.console();
 
-    public static void main(String[] args) {
-        
-     int dan;
-     Console console = System.console();
-     
-     while(true) {
-         dan = Integer.parseInt(console.readLine("구구단 ?"));
-         if (1 == dan  | 9 < dan) {
-             System.out.println("2에서 9단까지만 가능합니다!");
-             continue;
-         }else if (dan < 1) {
-             System.out.println("다음에 또봐요!");
-             break;
-         }
-         for(int i = 1; i <= 9; i++) {
-             System.out.printf("%d * %d = %d\n", dan, i, dan * i);
-         }
-     }
-        
-        
-     
+        if (console == null) {
+            System.err.println("콘솔을 지원하지 않습니다.");
+            System.exit(1); // JVM을 종료한다.
+        }        
     }
+    
+    static int promputGugudan() {
+        int i = Integer.parseInt(console.readLine("구구단? "));
+        if (i >= 10 || i == 1) {
+            System.out.println("2단에서 9단까지만 가능합니다!");
+            System.exit(i);
+            
+        } else if (i == 0) {
+            System.out.println("다음에 또 봐요!");
+            System.exit(i);
+        }
+        return i;
+    }
+    static void printGuggudan(int i) {
+        for (int j = 1; j <= 9; j++) {
+            System.out.printf("%d * %d = %d\n", i, j, i * j);
+        
+        }
+    }
+    public static void main(String[] args) {
+    
+        prepareInput();
+        
+        int i = promputGugudan();
+        
+        printGuggudan(i);
+    }
+    
 }
 
 
