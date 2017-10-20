@@ -11,7 +11,7 @@
 // 구구단 ? 0 <===== 0이하의 수를 입력하면 종료하라!
 // 다음에 또 봐요!
 // > 
-package bitcamp.java100;
+package bitcamp.java100.test21;
 
 import java.io.Console;
 import java.util.ArrayList;
