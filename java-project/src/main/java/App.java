@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 //: ## ver 07
 //: - 배열 응용 II
 //: ver-06에서 Score 객체를 배열에 저장하라!
@@ -12,9 +14,77 @@
 //: ```
 
 
+// ## ver 11
+// 키보드로 성적 정보를 입력 받아 저장하라!
 public class App {
-
+    
+    static String name;
+    static int kor;
+    static int eng;
+    static int math;
+    static int sum;
+    static float aver;
+    
+    static void inputScore() {
+        Scanner keyScan = new Scanner(System.in);
+        
+        System.out.print("이름? ");
+        name = keyScan.nextLine();
+        
+        System.out.print("국어점수? ");
+        kor = keyScan.nextInt();
+        
+        System.out.print("영어점수? ");
+        eng = keyScan.nextInt();
+        
+        System.out.print("수학점수? ");
+        math = keyScan.nextInt();
+        
+        keyScan.close(); // Scanner는 사용 후 닫아야 한다.
+                         // 즉 Scanner가 사용한 공용 자원(키보드)을 해제해야 한다.
+    }
+    
+    static void computeScore() {
+        sum = kor + eng + math;
+        aver = sum / 3f;
+    }
+    
+    static void printScore() {
+        System.out.printf("%s, %d, %d, %d, %d, %f\n", 
+                name, kor, eng, math, sum, aver);
+    }
+    
     public static void main(String[] args) {
+        
+        inputScore();
+        computeScore();
+        printScore();
+
+    }
+
+}
+
+     
+        
+     
+
+/** ##ver 10
+// 생성자를 이용하여 인스턴스를 초기화 시키라 
+// 인스턴스를 다루는 메서드는 인스턴스 메서드로 전환하라 
+
+        //Score 설계도에 따라 메모리를 준비
+        Score[] scores = {
+                new Score( "홍길동", 100, 90, 80), 
+                new Score("유관순", 80, 80, 80), 
+                new Score("임꺽정", 80, 90, 100)};
+        
+        //: 학생 성적을 출력한다.
+        for (Score s : scores) {
+            s.print();;
+        }
+        */
+
+        /*ver 09
         //Score 설계도에 따라 메모리를 준비
         Score[] scores = {new Score(), new Score(), new Score()};
         
@@ -30,8 +100,12 @@ public class App {
         }
     }
 }
+*/
 
-    /**
+
+
+
+    /** ver 08
     static void compute (Score score) {
         for (int sub : score.subjects) {
             score.sum += sub;
@@ -69,26 +143,17 @@ public class App {
 }
 */
     
-/**
-* #ver06 
-* 배열 문법응x용 
-* 여러 명의 성적을 저장하고 다음과 같이 출력하라!
- * 출력내용:
- * '''
- * 홍길동,  100,  90,  80,  270,  90.0
- * 임꺽정,   80,  80,  80,  240,  80.0
- * 유관순,  100, 100, 100,  300, 100.0
 
 
-public class App{
-    public static void main(String[]args)   {
-        // 학생의 성적을 저장할 때 사용할 사용자 정의 데이터 타입을 만든다.
-        // > 사용자 정의 데이터 타입은 데이터를 저장할 메모리를 설계하는 것이다.
-*/
+
+
         /**ver07 
         * 배열 응용2
         
-        
+      public class App{
+    public static void main(String[]args)   {
+        // 학생의 성적을 저장할 때 사용할 사용자 정의 데이터 타입을 만든다.
+        // > 사용자 정의 데이터 타입은 데이터를 저장할 메모리를 설계하는 것이다.  
         class Score {
             String name;
             int[] subjects = new int[3];
