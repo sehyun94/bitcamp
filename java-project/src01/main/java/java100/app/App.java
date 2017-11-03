@@ -1,5 +1,27 @@
 package java100.app;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Scanner;
+
+//: ## ver 07
+//: - 배열 응용 II
+//: ver-06에서 Score 객체를 배열에 저장하라!
+//: 
+//: 여러 명의 성적을 저장하고 다음과 같이 출력하라!
+//:
+//: 출력내용:
+//: ```
+//: 홍길동, 100,  90,  80, 270,  90.0
+//: 임꺽정,  80,  80,  80, 240,  80.0
+//: 유관순, 100, 100, 100, 300, 100.0
+//: ```
+
+// # ver 18
+// - 기능추가 , 변경 삭제 기능 사용
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
  
 // 리팩토링(refactoring) : extract method
@@ -10,61 +32,33 @@ import java.util.Scanner;
 public class App {
     
     static Scanner keyScan = new Scanner(System.in);
-    static ScoreController scoreController = new ScoreController();
-    static MemberController infoController = new MemberController(); 
-    static BoardController boardController = new BoardController();
+    
+    
+
     public static void main(String[] args) {
-        
+        ScoreController scoreController = new ScoreController();
         
         loop:
         while (true) {
-            System.out.print("명령> ");
-            String[] input = keyScan.nextLine().toLowerCase().split(" ");
+            System.out.print("성적관리> ");
+            String input = keyScan.nextLine();
             
-            try {
-            switch(input[0]) {
-            case "menu" : doMenu(); break;
-            case "help" : doHelp(); break;
-            case "quit" : doQuit(); break loop;
-            case "go" : doGo(input[1]) ;break;
-            default :
-                doError();
+            // 명령어를 처리하는 각 코드를 별도의 메서드로 추출한다.
+            switch (input) {
+            case "add": scoreController.doAdd(); break;
+            case "list": scoreController.doList(); break;
+            case "view": scoreController.doView(); break;
+            case "update": scoreController.doUpdate(); break;
+            case "delete": scoreController.doDelete(); break;
+            case "quit": doQuit(); break loop;
+            default: doError();
             }
-        } catch (Exception e) {
-            System.out.println("명령 처리 중 오류 발생!");
-            e.printStackTrace(); // 오류에 대한 내용 출력 
-            }
+            
             System.out.println();
-        }   // while
+        }
         
     }
     
-    private static void doGo(String menuNo) {
-        switch (menuNo) {
-        case "1" : scoreController.excute(); break;
-        case "2" : infoController.excute(); break;
-        case "3" : boardController.excute(); break;
-        default:
-            System.out.print("해당 번호의 메뉴가 없습니다.");
-        }
-    }
-        
-  
-
-    private static void doHelp() {
-        System.out.println("[명령]");
-        System.out.println("menu          - 메뉴 목록 출력한다.");
-        System.out.println("go 번호       - 메뉴로 이동한다.");
-        System.out.println("quit          - 프로그램 종료한다.");
-    }
-
-    private static void doMenu() {
-        System.out.println("1 성적관리");
-        System.out.println("2 회원관리");
-        System.out.println("3 게시판");
-                
-    }
-
     private static void doError() {
         System.out.println("실행할 수 없는 명령입니다.");
     }

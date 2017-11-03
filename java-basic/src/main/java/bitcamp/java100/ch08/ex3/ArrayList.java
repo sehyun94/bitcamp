@@ -1,4 +1,4 @@
-package java100.app;
+package bitcamp.java100.ch08.ex3;
 
 // 여러개의 Score 인스턴
 // 개별적으로 데이터를 관리하기 위해 인스턴스 메서드, 변수로 코드를 구성한다.

@@ -11,8 +11,8 @@ public class App {
     
     static Scanner keyScan = new Scanner(System.in);
     static ScoreController scoreController = new ScoreController();
-    static MemberController infoController = new MemberController(); 
-    static BoardController boardController = new BoardController();
+    
+
     public static void main(String[] args) {
         
         
@@ -32,7 +32,6 @@ public class App {
             }
         } catch (Exception e) {
             System.out.println("명령 처리 중 오류 발생!");
-            e.printStackTrace(); // 오류에 대한 내용 출력 
             }
             System.out.println();
         }   // while
@@ -42,8 +41,12 @@ public class App {
     private static void doGo(String menuNo) {
         switch (menuNo) {
         case "1" : scoreController.excute(); break;
-        case "2" : infoController.excute(); break;
-        case "3" : boardController.excute(); break;
+        case "2" :
+            System.out.print("회원관리> ");
+            break;
+        case "3" :
+            System.out.print("게시판> ");
+            break;
         default:
             System.out.print("해당 번호의 메뉴가 없습니다.");
         }
