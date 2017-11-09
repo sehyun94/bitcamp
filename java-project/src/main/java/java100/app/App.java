@@ -1,6 +1,15 @@
 package java100.app;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Scanner;
+
+import java100.app.control.BoardController;
+import java100.app.control.Controller;
+import java100.app.control.GenericController;
+import java100.app.control.MemberController;
+import java100.app.control.RoomController;
+import java100.app.control.ScoreController;
  
 // 리팩토링(refactoring) : extract method
 // => 작은 기능 단위로 메서드를 추출하는 기법
@@ -8,13 +17,20 @@ import java.util.Scanner;
 // => 이렇게 함으로써 따로 주석을 달 필요가 없게 한다.
 //    즉 메서드 이름이 주석이 되게 한다.
 public class App {
+    static Scanner keyScan = new Scanner(System.in);    
+    static HashMap<String,Controller> controllerMap = 
+            new HashMap<>(); 
+
     
-    static Scanner keyScan = new Scanner(System.in);
-    static ScoreController scoreController = new ScoreController();
-    static MemberController infoController = new MemberController(); 
-    static BoardController boardController = new BoardController();
     public static void main(String[] args) {
+
+        // go 명령어를 수행할 컨트롤러를 등록하라;
+        controllerMap.put("1", new ScoreController("./data/score.csv"));
+        controllerMap.put("2", new MemberController("./data/member.csv"));
+        controllerMap.put("3", new BoardController("./data/board.csv"));
         
+//        controllerMap.put("4", new GenericController<Room>()); 
+        controllerMap.put("4", new RoomController("./data/room.csv"));
         
         loop:
         while (true) {
@@ -40,13 +56,14 @@ public class App {
     }
     
     private static void doGo(String menuNo) {
-        switch (menuNo) {
-        case "1" : scoreController.excute(); break;
-        case "2" : infoController.excute(); break;
-        case "3" : boardController.excute(); break;
-        default:
+        
+        Controller controller = controllerMap.get(menuNo);
+        
+        if(controller == null) {
             System.out.print("해당 번호의 메뉴가 없습니다.");
+            return;
         }
+        controller.execute();
     }
         
   
@@ -62,6 +79,7 @@ public class App {
         System.out.println("1 성적관리");
         System.out.println("2 회원관리");
         System.out.println("3 게시판");
+        System.out.println("4 강의실");
                 
     }
 
@@ -70,6 +88,11 @@ public class App {
     }
 
     private static void doQuit() {
+       
+        Collection<Controller> controls = controllerMap.values();
+        for(Controller control : controls) {
+            control.destory();
+        }
         System.out.println("프로그램을 종료합니다.");
     }
 }
