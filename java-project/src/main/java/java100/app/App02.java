@@ -1,12 +1,8 @@
 
 package java100.app;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
+import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -16,120 +12,114 @@ import java100.app.control.Controller;
 import java100.app.control.MemberController;
 import java100.app.control.RoomController;
 import java100.app.control.ScoreController;
-
+ 
 // 리팩토링(refactoring) : extract method
 // => 작은 기능 단위로 메서드를 추출하는 기법
 // => 메서드의 기능을 함축하는 의미있는 이름으로 메서드명을 짓는다.
 // => 이렇게 함으로써 따로 주석을 달 필요가 없게 한다.
 //    즉 메서드 이름이 주석이 되게 한다.
-public class App {
+public class App02 {
     Scanner keyScan = new Scanner(System.in);    
-    HashMap<String,Controller> controllerMap = new HashMap<>(); 
-
+    HashMap<String,Controller> controllerMap = 
+            new HashMap<>(); 
+    
     void init() {
-        controllerMap.put("/score", new ScoreController("./data/score.csv"));
-        controllerMap.put("/member", new MemberController("./data/member.csv"));
-        controllerMap.put("/board", new BoardController("./data/board.csv"));
-        controllerMap.put("/room", new RoomController("./data/room.csv"));
+        controllerMap.put("1", new ScoreController("./data/score.csv"));
+        controllerMap.put("2", new MemberController("./data/member.csv"));
+        controllerMap.put("3", new BoardController("./data/board.csv"));
+        controllerMap.put("4", new RoomController("./data/room.csv"));
     }
-
+    
     void  service() throws Exception {
-
+      
         //서버 소켓 준비
-        try {
-            ServerSocket ss = new ServerSocket(9999);
-            System.out.println("서버 실행!");
-
-            while (true) {
-                Socket socket = ss.accept();// 클라이언트가 연결되면 소켓 생성
-
-                //소켓을 통해 데이터 입출력 할 수 있도록 스트림 객체준비
-                BufferedReader in = new BufferedReader(
-                        new InputStreamReader (socket.getInputStream()));
-
-                PrintStream out = new PrintStream (
-                        new BufferedOutputStream(socket.getOutputStream()));
-
-                while (true) {
-                    String command = in.readLine();
- 
-                    // 명령어에 따라 처리를 분기한다.
-                    if (command.equals("/")) {
-                        hello(command, out);
-                    }else if (command.equals("quit")) {
-                        break;
-                    } else {
-                        request(command, out);
-                    }
-                    out.println(); // 응답완료를 표시하기 위해 빈줄 보냄
-                    out.flush();
-                }
-            }
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-
-    private void request(String command, PrintStream out) {
-
-
-        String menuName = command;
-
-        int i = command.indexOf("/", 1);
+//        ServerSocket ss = new ServerSocket(9999);
         
-        if (i != -1) {
-            menuName = command.substring(0, i);
-        }
+        loop:
+            while (true) {
+                System.out.print("명령> ");
+                String[] input = keyScan.nextLine().toLowerCase().split(" ");
+                
+                try {
+                switch(input[0]) {
+                case "menu" : doMenu(); break;
+                case "help" : doHelp(); break;
+                case "quit" : doQuit(); break loop;
+                case "go" : doGo(input[1]) ;break;
+                default :
+                    doError();
+                }
+            } catch (Exception e) {
+                System.out.println("명령 처리 중 오류 발생!");
+                e.printStackTrace(); // 오류에 대한 내용 출력 
+                }
+                System.out.println();
+            }   // while
 
-        Controller controller = controllerMap.get(menuName);
-
+        
+    }
+    
+    
+    
+        private void doGo(String menuNo) {
+        
+        Controller controller = controllerMap.get(menuNo);
+        
         if(controller == null) {
-            out.println("해당 명령을 지원하지 않습니다.");
+            System.out.print("해당 번호의 메뉴가 없습니다.");
             return;
-        } else
-           out.println("좋은 명령 입니다!");
+        }
+        controller.execute();
+    }
+        
+  
 
-        //        controller.execute();
+    private void doHelp() {
+        System.out.println("[명령]");
+        System.out.println("menu          - 메뉴 목록 출력한다.");
+        System.out.println("go 번호       - 메뉴로 이동한다.");
+        System.out.println("quit          - 프로그램 종료한다.");
     }
 
-
-
-    private void hello(String command, PrintStream out) {
-        out.println("안녕하세요. 성적관리 시스텝입니다");
-        out.println("[성적관리 명령들]");
-        out.println("목록보기 : /score/list");
-        out.println("상세보기 : /score/view?name=이름?");
-        out.println("등록 : /score/add?name=이름&kor=점수&eng=점수&math=점수");
-        out.println("변경 : /score/update?name=이름&kor=점수&eng=점수&math=점수");
-        out.println("삭제 : /score/delete?name=이름");
-
-        out.println("[회원]");
-        out.println("[게시판]");
-        out.println("[강의실]");
-
+    private void doMenu() {
+        System.out.println("1 성적관리");
+        System.out.println("2 회원관리");
+        System.out.println("3 게시판");
+        System.out.println("4 강의실");
+                
     }
 
+    private void doError() {
+        System.out.println("실행할 수 없는 명령입니다.");
+    }
+
+    private void doQuit() {
+       
+        Collection<Controller> controls = controllerMap.values();
+        for(Controller control : controls) {
+            control.destory();
+        }
+        System.out.println("프로그램을 종료합니다.");
+    }
 
     public static void main(String[] args) throws Exception {
-        App app = new App();
+        App02 app = new App02();
         app.init();
         app.service();
     }
 
 }
+   
+    //
 
-//
-
-//
-//
-//
-// }
-// for (int i = 0; i < list.size(); i++) {
-// // ((Score)list.get(i)).print();
-// list.get(i).print();
-// }
+    //
+    //
+    //
+    // }
+    // for (int i = 0; i < list.size(); i++) {
+    // // ((Score)list.get(i)).print();
+    // list.get(i).print();
+    // }
 
 
 
