@@ -1,12 +1,11 @@
 package java100.app.control;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Scanner;
 
 import java100.app.domain.Member;
 import java100.app.util.Prompts;
@@ -21,11 +20,9 @@ public class MemberController extends GenericController<Member> {
     
     @Override
     public void destory() {
-        try (PrintWriter out = new PrintWriter(
-                new BufferedWriter(
-                        new FileWriter(this.dataFilePath)));) {
+        try (FileWriter out = new FileWriter(dataFilePath);) {
             for (Member member : this.list) {
-                out.println(member.toCSVStirng());
+                out.write(member.toCSVStirng() + "\n");
              }
              } catch (IOException e) {
         e.printStackTrace();
@@ -37,11 +34,12 @@ public class MemberController extends GenericController<Member> {
     
     @Override
     public void init() {
-                try (BufferedReader in = new BufferedReader(
-                                        new FileReader(this.dataFilePath));) {
-                    
-                    String csv = null;
-                    while ((csv = in.readLine()) != null) {
+        try (
+                FileReader in = new FileReader(dataFilePath);
+                Scanner lineScan = new Scanner(in);){
+            String csv = null;
+            while (lineScan.hasNextLine()) {
+                csv = lineScan.nextLine();
                 try {
                     list.add(new Member(csv));
             } catch(CSVFormatException e) {

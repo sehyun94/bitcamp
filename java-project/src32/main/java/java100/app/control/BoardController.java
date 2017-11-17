@@ -1,12 +1,10 @@
 package java100.app.control;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -21,11 +19,9 @@ public class BoardController extends GenericController<Board> {
     }
     @Override
     public void destory() {
-        try (PrintWriter out = new PrintWriter ( 
-                                 new BufferedWriter (
-                                new FileWriter(dataFilePath)))) {
+        try (FileWriter out = new FileWriter(dataFilePath);) {
             for (Board board : this.list) {
-                out.println(board.toCSVStirng()) ;
+                out.write(board.toCSVStirng() + "\n");
              }
              } catch (IOException e) {
         e.printStackTrace();
@@ -38,12 +34,11 @@ public class BoardController extends GenericController<Board> {
     @Override
     public void init() {
         try (
-              
-                BufferedReader in = new BufferedReader(new FileReader(this.dataFilePath))
-                ){
+                FileReader in = new FileReader(dataFilePath);
+                Scanner lineScan = new Scanner(in);){
             String csv = null;
-            while ((csv = in.readLine()) != null) {
-                
+            while (lineScan.hasNextLine()) {
+                csv = lineScan.nextLine();
                 try {
                     list.add(new Board(csv));
             } catch(CSVFormatException e) {

@@ -1,11 +1,8 @@
 package java100.app.control;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -18,9 +15,9 @@ public class ScoreController extends GenericController<Score> {
     
     
     public ScoreController(String dataFilePath) {
-            this.dataFilePath = dataFilePath;
             this.init();
-    }
+            this.dataFilePath = dataFilePath;
+        }
     //ArrayList에 보관된 데이터를 score.csv 파일에 저장한다.
     // 저장하는 형식은 CSV(Comma Separated Value) 방식을 사용
     // 예)홍길동,100,100,100,300,100.0
@@ -28,21 +25,18 @@ public class ScoreController extends GenericController<Score> {
         @Override
         public void destory() {
          
-        try (PrintWriter out = new PrintWriter (
-                                  new BufferedWriter(
-                                    new FileWriter(this.dataFilePath)));) {
+        try (FileWriter out = new FileWriter(this.dataFilePath);) {
          
         for (Score score : this.list) {
-            out.println(score.toCSVStirng());
-        }  
-        out.flush();
-        
+
+            out.write(score.toCSVStirng() + "\n");
+        }
         
         } catch (IOException e) {
             e.printStackTrace();
-        }
-               
-        }
+        } 
+    }
+    
     // CSV형식으로 저장된 파일에서 성적 데이터를 읽어
     // ArrayList에 보관한다.
         
@@ -51,16 +45,12 @@ public class ScoreController extends GenericController<Score> {
         
         
         try (
-                //FileReader in = new FileReader(this.dataFilePath);
-                //BufferedReader in2 = new BufferedReader(in);
-                
-                BufferedReader in = new BufferedReader(new FileReader(this.dataFilePath)))
-                
-        //        Scanner lineScan = new Scanner(in);)
-        {
+                FileReader in = new FileReader(this.dataFilePath);
+                Scanner lineScan = new Scanner(in);){
             
             String csv = null;
-            while ((csv = in.readLine()) != null) {
+            while (lineScan.hasNextLine()) {
+                csv = lineScan.nextLine();
 //                System.out.println(str);
                 try {
                     list.add(new Score(csv));
