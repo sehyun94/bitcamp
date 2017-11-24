@@ -1,12 +1,55 @@
 package aaabbbb.bb.app.control;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Iterator;
 
 import aaabbbb.bb.app.domain.Member;
 import aaabbbb.bb.app.util.Prompts;
 
 public class MemberController extends GenericController<Member> {
+    private String dataFilePath;
     
+    public MemberController(String dataFilePath) {
+        this.dataFilePath = dataFilePath;
+        this.init();
+    }
+    @Override
+    public void destory() {
+        try (PrintWriter out = new PrintWriter(
+                                   new BufferedWriter(
+                                       new FileWriter(this.dataFilePath)))) {
+            for(Member member : this.list) {
+                out.println(member.toCSVString());
+            }
+            out.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @Override
+    public void init() {
+        try (BufferedReader in = new BufferedReader(
+                                new FileReader(this.dataFilePath));) {
+            String csv = null;
+            while((csv = in.readLine()) != null) {
+                try {
+                    list.add(new Member(csv));
+                } catch (CSVFormatException e) {
+                    System.err.println("ddd");
+                    e.printStackTrace();
+                }
+            } 
+                
+            } catch (IOException e) {
+                e.printStackTrace();
+        }
+    }
     // 실제 이 클래스가 오버라이딩 하는 메서드는 
     // GenericController가 따른다고 한 Controller 인터페이스의 
     // 추상 메서드이다.

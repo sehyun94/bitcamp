@@ -1,5 +1,10 @@
 package aaabbbb.bb.app.control;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -10,10 +15,48 @@ import aaabbbb.bb.app.util.Prompts;
 // RoomController는 ArrayList를 상속 받은 서브 클래스이기도 하지만,
 // Controller라는 규칙을 따르는 클래스이기도 하다!
 public class RoomController extends ArrayList<Room> implements Controller {
-
+    private String dataFilePath;
+    
+    public RoomController (String dataFilePath) {
+        this.dataFilePath = dataFilePath;
+        this.init();
+    }
     // Scanner 객체를 준비한다.
     Scanner keyScan = new Scanner(System.in);
     
+    
+    @Override
+    public void destory() {
+        try (PrintWriter out = new PrintWriter(
+                                new BufferedWriter (
+                                  new FileWriter(this.dataFilePath)))) {
+            for(Room room : this) {
+                out.println(room.toCSVString());
+            } 
+            out.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @Override
+    public void init() {
+        try(BufferedReader in = new BufferedReader (
+                                new FileReader(this.dataFilePath))) {
+            
+            String csv = null;
+            if((csv = in.readLine()) != null) {
+                try {
+                    this.add(new Room(csv));
+                } catch (CSVFormatException e) {
+                    System.err.println("csv 형식오류");
+                    e.printStackTrace();
+                }
+            }  
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     // 다음 메서드는 Controller 규칙을 따르기로 했기 때문에,
     // Controller 선언된 추상 메서드를 오버라이딩 한 것이다.
     // 만약 추상 메서드를 오버라이딩 하지 않는다면,

@@ -6,137 +6,130 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
 import java100.app.domain.Room;
-import java100.app.util.Prompts;
 
-public class RoomController extends ArrayList<Room> implements Controller{
-    
-    private String dataFilePath;
-    
-    public RoomController(String dataFilePath) {
-        this.dataFilePath = dataFilePath;
-        this.init();
-    }
-    
-    Scanner keyScan = new Scanner(System.in);
-    
-    
+// RoomController는 ArrayList를 상속 받은 서브 클래스이기도 하지만,
+// Controller라는 규칙을 따르는 클래스이기도 하다!
+public class RoomController extends ArrayList<Room> implements Controller {
+    private static final long serialVersionUID = 1L;
+
     @Override
-    public void destory() {
-        try (PrintWriter out = new PrintWriter(
-                new BufferedWriter(
-                new FileWriter(this.dataFilePath)))) {
-            for (Room room : this) {
-                out.println(room.toCSVStirng());
-             }
-             } catch (IOException e) {
-        e.printStackTrace();
-        } 
-}
+    public void destroy() {}
 
-// CSV형식으로 저장된 파일에서 성적 데이터를 읽어
-// ArrayList에 보관한다.
-    
+    // CSV 형식으로 저장된 파일에서 성적 데이터를 읽어 
+    // ArrayList에 보관한다.
     @Override
     public void init() {
-                try (BufferedReader in = new BufferedReader(
-                        new FileReader(this.dataFilePath));) {
-                    
-                    String csv = null;
-                    while ((csv = in.readLine()) != null) {          
-                try {
-                    this.add(new Room(csv));
-            } catch(CSVFormatException e) {
-                System.err.println("CSV 데이터 형식오류!");
-                e.printStackTrace();
-            }
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException ex) {
+            // 스텔스 예외처리 
+            throw new RuntimeException("JDBC 드라이버 클래스를 찾을 수 없습니다.");
         }
-            } catch(IOException e) {
-                e.printStackTrace();
     }
-}
-    
+
     @Override
-    public void execute() {
-        loop: while (true) {
-            System.out.print("강의실관리> ");
-            String input = keyScan.nextLine();
-            // 명령어를 처리하는 각 코드를 별도의 메서드로 추출한다.
-            switch (input) {
-            case "add": this.doAdd(); break;
-            case "list": this.doList(); break;
-            case "delete": this.doDelete(); break;
-            case "main": 
-                break loop;
-            default:
-                System.out.println("해당 명령이 없습니다.");
-            }
+    public void execute(Request request, Response response) {
+        switch (request.getMenuPath()) {
+        case "/room/list": this.doList(request, response); break;
+        case "/room/add": this.doAdd(request, response); break;
+        case "/room/delete": this.doDelete(request, response); break;
+        default: 
+            response.getWriter().println("해당 명령이 없습니다.");
         }
     }
 
-    // 대신 목록 객체에 값을 저장하고 꺼낸는 객체는 완전 공개
-    private void doDelete() {
-        System.out.println("[강의실 삭제]");
-        String roomName = Prompts.inputString("강의실 이름? ");
+    private void doList(Request request, Response response) {
+        PrintWriter out = response.getWriter();
+        out.println("[강의실 목록]");
 
-        Room room = find(roomName);
+        try (Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/studydb","study", "1111");
 
-        if (room == null) {
-            System.out.printf("'%s'의 강의실 정보가 없습니다.\n", room);
-            return;
-        } 
-        
-        if (Prompts.confirm2("정말 삭제하시겠습니까?(y/N) ")) {
-                this.remove(room);
-                System.out.println("삭제하였습니다.");
+                PreparedStatement pstmt = con.prepareStatement(
+                        "select no,loc,name,capcity from ex_room");
+                ResultSet rs = pstmt.executeQuery();) {
+
+            while (rs.next()) {
+                out.printf("%d, %s, %s, %d\n",  
+                        rs.getInt("no"),
+                        rs.getString("loc"),
+                        rs.getString("name"),
+                        rs.getInt("capcity")
+                        );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.println(e.getMessage());
+        }
+
+    }
+
+    private void doAdd(Request request, Response response) {
+        PrintWriter out = response.getWriter();
+        out.println("등록완료");
+
+        try (Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/studydb","study", "1111");
+
+                PreparedStatement pstmt = con.prepareStatement(
+                        "insert into ex_room(loc,name,capcity) values(?,?,?)");
+                ){
+            pstmt.setString(1, request.getParameter("loc"));
+            pstmt.setString(2, request.getParameter("name"));
+            pstmt.setInt(3, Integer.parseInt(request.getParameter("capcity")));
+
+            pstmt.executeUpdate();
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            out.println(e.getMessage());
+        }
+
+    }
+
+
+    private void doDelete(Request request, Response response) {
+        PrintWriter out = response.getWriter();
+
+        try (Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/studydb","study", "1111");
+
+                PreparedStatement pstmt = con.prepareStatement(
+                        "delete from ex_room where no=?");
+                ){
+            pstmt.setInt(1, Integer.parseInt(request.getParameter("no")));
+
+            if (pstmt.executeUpdate() > 0) {
+                out.println("삭제했습니다.");
             } else {
-                System.out.println("삭제를 취소하였습니다.");
+                out.printf("'%s'의 강의실 정보가 없습니다.\n", 
+                        request.getParameter("no"));
             }
-    }
 
-    
-    private void doList() {
-        System.out.println("[강의실 목록]");
 
-        Iterator<Room> iterator = this.iterator();
-        while (iterator.hasNext()) {
-            Room room = iterator.next();
-            System.out.printf("강의실이름: %-7s 강의실 지역: %-10s  수용인원: %d\n", 
-                    room.getName(), room.getLocation(), room.getCapacity());
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.println(e.getMessage());
         }
-        
-    }
 
-    private void doAdd() {
-        System.out.println("[강의실 등록]");
-
-        Room room = new Room();
-        
-        room.setName(Prompts.inputString("강의실 이름? "));
-   
-        if(find(room.getName()) != null) { 
-            System.out.println("이미 등록된 강의실 입니다.");
-            return;
     }
-        room.setLocation(Prompts.inputString("지역?"));
-        room.setCapacity(Prompts.inputInt("수용인원?"));
-        
-        this.add(room);
 }
 
-    private Room find(String name) {
-        Iterator<Room> iterator = this.iterator();
-        while (iterator.hasNext()) {
-            Room room = iterator.next();
-            if (room.getName().equals(name)) {
-                return room;
-            }
-        }
-        return null;
-    }
-}
+
+
+
+
+
+
+
+
 

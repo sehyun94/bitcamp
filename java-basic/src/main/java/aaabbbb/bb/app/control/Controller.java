@@ -11,7 +11,7 @@ public interface Controller {
     // 어, abstract가 선언되어 있지 않은데?
     // 생략된 것이다. 컴파일할 때 자동으로 붙는다.
     // 자세한 문법 사항은 java-basic 프로젝트에 설명할 것이다.
-    /*public abstract*/ void execute();
+    /*public abstract*/ void execute(Request request, Response response);
 
     default void destory() {
         

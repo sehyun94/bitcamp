@@ -17,8 +17,6 @@ public abstract class GenericController<T> implements Controller {
     
     protected ArrayList<T> list = new ArrayList<>();
     
-    public void destory();
-    
     // Controller 인터페이스로부터 execute()라는 추상 메서드를 
     // 물려 받았기 때문에 여기서 또 선언해서는 안된다.
     //public abstract void execute();

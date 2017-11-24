@@ -5,6 +5,8 @@
 //: 
 package aaabbbb.bb.app;
 
+import java.net.ServerSocket;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -30,20 +32,24 @@ public class App {
     static Scanner keyScan = new Scanner(System.in);
     
     // 이제 HashMap에 보관하는 값은 Controller 규칙을 준수한 객체이다.
-    static HashMap<String,Controller> controllerMap = 
-            new HashMap<>();
-    
+    static HashMap<String,Controller> controllerMap = new HashMap<>();
+    static ServerSocket ss;
     public static void main(String[] args) {
         
         // go 명령어를 수행할 컨트롤러를 등록한다.
-        controllerMap.put("1", new ScoreController());
-        controllerMap.put("2", new MemberController());
-        controllerMap.put("3", new BoardController());
+        controllerMap.put("1", new ScoreController("./data/score.csv"));
+        controllerMap.put("2", new MemberController("./data/member.csv"));
+        controllerMap.put("3", new BoardController("./data/board.csv"));
+        controllerMap.put("4", new RoomController("./data/room.csv")); // OK!
         
-        // 비록 RooomController가 GenericController의 서브클래스는 아니지만,
-        // Controller의 규칙을 따르기 때문에 
-        // controllerMap에 저장할 수 있다.
-        controllerMap.put("4", new RoomController()); // OK!
+        void service() throws Exception {
+            ss = new ServerScoket(9999);
+            
+        
+            System.out.println("서버 시작됨");
+            
+            
+        }
         
         loop:
         while (true) {
@@ -69,28 +75,15 @@ public class App {
     }
     
     private static void doGo(String menuNo) {
-        
-        // controllerMap에 저장된 컨트롤러 객체는 
-        // Controller 규칙을 따르는 객체이기 때문에
-        // 레퍼런스를 선언할 때도 Controller 레퍼런스를 사용하라!
+   
         Controller controller = controllerMap.get(menuNo);
         
         if (controller == null) {
             System.out.println("해당 번호의 메뉴가 없습니다.");
             return;
         }
-        
-        // App 클래스는 컨틀롤러 객체를 사용할 때
-        // Controller 규칙에 정의된 메서드를 호출할 뿐이다!
-        // 이 규칙을 따르는 객체라면 누구를 상속 받는지 상관없이
-        // 호출할 수 있다.
-        // 이것이 인터페이스 문법을 사용하는 이유이다.
-        // 그 자격을 갖춘 객체라면 상속과 상관없이 호출할 수 있다.
-        // 사용하는 객체의 범위를 더 확대시키는 문법이다.
-        // 훨씬 코드 확장을 유연하게 도와준다.
-        // 이전의 방식이라면 GenericController의 서브 클래스만 
-        // 가능하기 때문에 너무 협소적이었다.
-        controller.execute();
+     
+        controller.execute(Request request, Response response);
     }
 
     private static void doHelp() {
@@ -104,6 +97,7 @@ public class App {
         System.out.println("1 성적관리");
         System.out.println("2 회원관리");
         System.out.println("3 게시판");
+        System.out.println("4 강의실");
     }
 
     private static void doError() {
@@ -111,8 +105,14 @@ public class App {
     }
 
     private static void doQuit() {
+        Collection<Controller> controls = controllerMap.values();
+        for (Controller control : controls) {
+            control.destory();
+        }
         System.out.println("프로그램을 종료합니다.");
     }
+    
+    
 
 
 
