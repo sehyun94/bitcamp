@@ -1,16 +1,12 @@
-//: ## ver 36
-//: - 버전 35는 한 번 클라이언트와 연결되면 
-//    클라이언트와 연결이 끊어질 때까지 계속 요청과 응답을 수행한다. 
-//    문제는 클라이언트 사용자가 아무런 일을 시키지 않아도 
-//    계속 연결된 채로 있다는 것이다. 즉 메모리 낭비가 이루어진다.
-//: - 버전 35의 문제점을 해결하기 위해 요청할 때마다 연결을 한 후 
-//    응답을 하면 연결을 끊는 방식으로 전환한다. 
-//    단점, 요청할 때마다 연결해야 하기 때문에 요청/응답 시간이 늘어난다. 
-//    장점, 클라이언트와 일시적으로 연결되기 때문에 
-//    더 많은 클라이언트의 요청을 처리할 수 있다.
+//: ## ver 45
+//: - 컨트롤러와 DAO 객체를 자동 생성하라!
+//: - 자동 생성할 클래스 정보를 properties 파일에 등록한 다음,
+//:   프로그램을 시작할 때 해당 파일에 등록된 클래스의 객체를 자동생성한다. 
 //: - 학습목표
-//:   - Stateful 과 Stateless 방식의 차이점을 이해하고 구현할 수 있다.
+//:   - 객체를 자동 생성하는 방법을 연습한다.
+//:   - Reflection API의 활용법을 이해한다.
 //: 
+//:   
 package java100.app;
 
 import java.io.BufferedOutputStream;
@@ -19,66 +15,67 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Scanner;
 
-import java100.app.control.BoardController;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
 import java100.app.control.Controller;
-import java100.app.control.MemberController;
 import java100.app.control.Request;
 import java100.app.control.Response;
-import java100.app.control.RoomController;
-import java100.app.control.ScoreController;
+import java100.app.util.DataSource;
 
-// Stateful
-// - 클라이언트와 서버가 한 번 연결되면 명시적으로 연결 끊을 때까지
-//   데이터 통신을 하는 방식이다.
-// - 예) FTP, SSH, Telnet 등
-// - 특징
-//   => 클라이언트와 계속 연결된 채로 있기 때문에 클라이언트가 요청한 
-//      작업 결과를 서버에 유지(상태 유지)할 수 있다.
-// 
-// Stateless
-// - 클라이언트가 서버에 요청할 때 마다 매번 연결하고,
-//   서버가 응답을 한 후에는 연결을 끊는다.
-// - 예) HTTP, 이메일 보내기 서버(SMTP), 이메일 가져오기 서버(POP3, IMAP) 등
-// - 특징
-//   => 클라이언트의 요청을 처리한 후 연결을 끊기 때문에 
-//      클라이언트의 작업 상태를 보관할 수 없다.
-//   => 그대신 같은 자원(메모리)으로 더 많은 클라이언트 요청을 처리한다.
+// 기존 방식의 문제점
+// - 컨트롤러나 DAO가 추가될 때마다 해당 객체를 생성하는 코드를 
+//   App 클래스에 추가해야 한다.
 //
-// RequestProcessor 클래스에서 요청/응답을 반복하는 부분에서
-// while 반복문을 제거한다.
-// => 클라이언트도 변경해야 한다.
+// 해결 방안
+// - 객체를 생성해야 하는 클래스 이름을 외부 파일에 등록한 후
+//   프로그램을 시작할 때 자동으로 생성되게 한다.
+// - 변경코드  
+//   1) application-context.properties 파일 생성
+//      - 자동으로 생성할 객체의 클래스 이름을 등록한다.
+//   2) ApplicationContext 변경
+//      - 멤버를 개별적으로 관리할 수 있도록 인스턴스 멤버로 전환한다.
+//      - 생성자에 프로퍼티 파일을 경로를 넘겨주면, 해당 경로의 정보를 읽어서
+//        주어진 클래스의 인스턴스를 자동 생성한다.
+//      - 각 인스턴스의 셋터 메서드를 찾아서 호출한다.
+//        즉 그 객체가 원하는 의존 객체를 주입한다.
 // 
+
+@Configuration // 이 클래스가 스프링 IoC 컨테이너를 위한 설정 클래스임을 표시
+
+//@ComponentScan(basePackages= {"java100.app"})  
+// @ComponentScan(value = "java100.app") ==> value는 값 생략가능하기 때문에 실무에서는 아래코드를 주로 사용.  
+@ComponentScan("java100.app") // @Component 붙은 클래스가 어느 패키지에 있는지 표시
 public class App {
 
     ServerSocket ss;
-    Scanner keyScan = new Scanner(System.in);
 
-    // 이제 HashMap에 보관하는 값은 Controller 규칙을 준수한 객체이다.
-    HashMap<String,Controller> controllerMap = 
-            new HashMap<>();
-
+    // Spring Ioc 컨테이너 객체
+    AnnotationConfigApplicationContext iocContainer;
+    
+    // Spring Ioc 컨테이너에게 getDataSource() method를 호출해서 
+    // 이 method 가 리턴한 객체를 꼭 컨테이너에 보관해달라고 표시! => @Bean 
+    @Bean("dataSource")
+    DataSource getDataSource() {
+        DataSource ds = new DataSource();
+        ds.setDriverClassName("com.mysql.jdbc.Driver");
+        ds.setUrl("jdbc:mysql://localhost:3306/studydb");
+        ds.setUsername("study");
+        ds.setPassword("1111");
+        return ds;
+    }
+    
+    
+    
     void init() {
-        ScoreController scoreController = new ScoreController();
-        scoreController.init(); 
-        controllerMap.put("/score", scoreController);
         
-        MemberController memberController = new MemberController();
-        memberController.init();
-        controllerMap.put("/member", memberController);
+        // 에노테이션을 이용하여 Ioc 컨테이너 설정하는 객체 준비
+        // => 파라미터로는 애노테이션이 붙은 클래스를 알려준다.
+        iocContainer = new AnnotationConfigApplicationContext(App.class);
         
-        
-        BoardController boardController = new BoardController();
-        boardController.init();
-        controllerMap.put("/board", boardController);
-       
-        RoomController roomController = new RoomController();
-        roomController.init();
-        controllerMap.put("/room", roomController); 
-
     }
 
     void service() throws Exception {
@@ -92,14 +89,6 @@ public class App {
         }
     }
 
-    private void save() {
-        Collection<Controller> controllers = controllerMap.values();
-        for (Controller controller : controllers) {
-            controller.destroy(); // List에 들어있는 값을 파일에 저장.
-        }
-    }
-
-
     private void request(String command, PrintWriter out) {
 
         String menuName = command;
@@ -109,9 +98,9 @@ public class App {
             menuName = command.substring(0, i);
         }
 
-        Controller controller = controllerMap.get(menuName);
+        Object controller = iocContainer.getBean(menuName);
 
-        if (controller == null) {
+        if (controller == null && controller instanceof Controller) {
             out.println("해당 명령을 지원하지 않습니다.");
             return;
         }
@@ -123,7 +112,7 @@ public class App {
         Response response = new Response();
         response.setWriter(out);
         
-        controller.execute(request, response);
+        ((Controller)controller).execute(request, response);
     }
 
     private void hello(String command, PrintWriter out) {
@@ -146,14 +135,12 @@ public class App {
         app.service();
     }
     
-   
     class HttpAgent extends Thread {
         Socket socket;
         
         public HttpAgent(Socket socket) {
             this.socket = socket;
         }
-   
         
         @Override
         public void run() {
@@ -164,9 +151,12 @@ public class App {
                     PrintWriter out = new PrintWriter(
                             new BufferedOutputStream(socket.getOutputStream()));
                     ) {
-               
+                // HTTP 요청 읽기
+                // => request-line 읽기
+                // 예) GET /score/list HTTP/1.1 (CRLF)
                 String command = in.readLine().split(" ")[1];
 
+                // => header 읽기
                 String header = null;
                 while (true) {
                     header = in.readLine();
@@ -182,17 +172,16 @@ public class App {
                 // => 콘텐츠의 MIME 타입과 인코딩 문자집합에 대한 정보를 출력한다. 
                 out.println("Content-Type:text/plain;charset=UTF-8");
                 
+                // => 헤더의 끝임을 표시하기 위해 빈 줄을 출력한다.
+                out.println();
                 
-                out.println(); // 응답을 완료를 표시하기 위해 빈줄 보냄.
-                
+                // 명령어에 따라 처리를 분기하여 콘텐츠를 출력한다.
                 if (command.equals("/")) {
                     hello(command, out);
                 } else {
                     request(command, out);
-                    save();
                 }
-                
-                out.println();
+                out.println(); // 응답을 완료를 표시하기 위해 빈줄 보냄.
                 out.flush();
                 
             } catch (Exception e) {

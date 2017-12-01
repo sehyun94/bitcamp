@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:c="http://www.springframework.org/schema/c"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 생성자 호출II -->
+    
+    <!-- 파라미터가 있는 생성자 호출하기 파라미터 명으로 값을 지정-->
+    
+    <bean class="bitcamp.java100.ch20.ex2.MyClass"
+                 c:p1= "홍길동"/>
+    <bean class="bitcamp.java100.ch20.ex2.MyClass"
+                 c:p1= "100"/>
+    
+    <bean class="bitcamp.java100.ch20.ex2.MyClass2"
+                 c:age= "100"/>
+
+    <bean class="bitcamp.java100.ch20.ex2.MyClass2"
+                 c:name= "길동"/>
+    
+    <bean class="bitcamp.java100.ch20.ex2.MyClass2"
+                  c:name= "길동" c:age="15"/>
+
+    <bean class="bitcamp.java100.ch20.ex2.MyClass2"
+                 c:age='15' c:name= "길동"/>
+
+
+     <!--  파라미터 지정시 이름을 지정하기 때문에 순서 상관없다  -->
+     <bean class="bitcamp.java100.ch20.ex2.MyClass2"
+                 c:age="15" c:name= "길동" c:working="true"/>
+           
+    <!--  파라미터 지정시 이름대신 순서 사용가능  -->       
+               
+    <bean class="bitcamp.java100.ch20.ex2.MyClass2"
+                 c:_1="15" c:_0= "길동" c:_2="true"/>
+                 
+    </beans>
+
+
+

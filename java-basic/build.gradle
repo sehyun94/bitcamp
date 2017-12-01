@@ -34,7 +34,14 @@ repositories {
     jcenter()
 }
 dependencies {
-compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.44'
+    // MYSQL DMBS의 JDBC Driver
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.44'
+
+  // Reflection 작업을도와주는 라이브러리
+    compile group: 'org.reflections', name: 'reflections', version: '0.9.11'
+    
+    //Spring Ioc 컨테이너 라이브러리
+    compile 'org.springframework:spring-context:5.0.2.RELEASE'
 
     compile 'com.google.guava:guava:22.0'
     testCompile 'junit:junit:4.12'
