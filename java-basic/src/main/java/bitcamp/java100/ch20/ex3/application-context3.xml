@@ -20,6 +20,6 @@
     <bean id="c3" class="bitcamp.java100.ch20.ex3.Car"
         p:engine-ref="e1"/>
         
-        
+         
         
 </beans>

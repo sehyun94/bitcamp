@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE books [
+<!ELEMENT books (book)>
+<!ELEMENT book (#PCDATA)>
+]>
+<books><book>텍스트가와야한다</book></books>
+

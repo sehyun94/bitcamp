@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- 엘리먼트의 속성 타입 - IDREF, IDREFS
+<!ATTLIST 태그명 
+    속성명 IDREF #REQUIRED  
+    속성명 IDREFS #REQUIRED-->
+    
+
+<!ENTITY % string "CDATA #REQUIRED">
+<!ENTITY % coreattrs
+    "name %string;
+    id ID #REQUIRED"
+>
+<!ELEMENT items (author*,press*,book*)>
+<!ELEMENT book (#PCDATA)>
+
+
+<!ATTLIST book
+    title %string;
+    author IDREFS #REQUIRED
+    press IDREF #REQUIRED
+>
+
+<!ELEMENT author (#PCDATA)>
+<!ATTLIST author
+    %coreattrs;
+>
+<!ELEMENT press (#PCDATA)>
+<!ATTLIST press
+    %coreattrs;
+>
+
+
+
+

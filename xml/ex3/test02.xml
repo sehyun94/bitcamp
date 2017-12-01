@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE items [
+<!ELEMENT itmes (book)*>
+<!ELEMENT book (#PCDATA)>
+<!ATTLIST book
+    title CDATA #REQUIRED
+    press CDATA #IMPLIED
+    lang CDATA #FIXED '한국'
+    price CDATA '1000'
+>
+]>
+
+<itmes>
+
+    <book title="aaaa">  <!--  TITLE 은 필수 선택이다 --> </book>
+    
+    <book title="aaaa" press="bbbb" lang="한국">  <!--  TITLE 은 필수 선택이다 -->
+    </book>
+    
+    
+    <book title="aaaa" press="bbbb" lang="한국">  <!--  TITLE 은 필수 선택이다 -->
+    </book>
+    
+    
+</itmes>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE books [
+<!ELEMENT books (book)*>
+<!ELEMENT book (title,author+,press,page,description?,photo*,(cd|tape|usb)?)>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT author (#PCDATA)>
+<!ELEMENT press (#PCDATA)>
+<!ELEMENT page (#PCDATA)>
+<!ELEMENT description (#PCDATA)>
+<!ELEMENT photo (#PCDATA)>
+<!ELEMENT cd EMPTY>
+<!ELEMENT tape EMPTY>
+<!ELEMENT usb EMPTY>        
+]>
+<books>
+      <book>
+    <title>aaa</title>
+    <author>bbbb</author>
+    <press>ccccc</press>
+    <page>300</page>
+    <cd/>
+    </book>
+    
+          <book>
+    <title>aaa</title>
+    <author>bbbb</author>
+    <press>ccccc</press>
+    <page>300</page>
+    <tape/>
+    </book>
+    
+          <book>
+    <title>aaa</title>
+    <author>bbbb</author>
+    <press>ccccc</press>
+    <page>300</page>
+    <cd/>
+    <!-- <tape/>   or 기때문에 3개중 하나만 오거나 안올 수 있다.-->
+    </book>
+    </books>

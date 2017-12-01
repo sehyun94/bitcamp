@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE items [
+<!ELEMENT itmes (book)*>
+<!ELEMENT book (#PCDATA)>
+<!ATTLIST book
+    title       CDATA #REQUIRED
+    author      CDATA #REQUIRED
+    press       CDATA #REQUIRED
+    page        CDATA #REQUIRED
+    photo       CDATA #IMPLIED
+>
+]>
+
+<itmes>
+
+    <book title="aaaa" author="bbb" press="ccc" page="200">
+    </book>
+    
+    <book title="aaaa" author="bbb" press="ccc" page="200" photo="a.gif">
+    </book>
+    
+</itmes>

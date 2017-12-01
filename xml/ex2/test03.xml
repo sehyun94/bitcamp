@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE books [
+<!ELEMENT books (#PCDATA)>
+]>
+<books>텍스트만 올수있다.</books>
+

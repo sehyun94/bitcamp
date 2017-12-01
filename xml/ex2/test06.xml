@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE books [
+<!ELEMENT books (book)*>
+<!ELEMENT book (title,author,press)>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT author (#PCDATA)>
+<!ELEMENT press (#PCDATA)>
+]>
+<books>
+    <book>
+    <title>aaa</title>
+    <author>bbbb</author>
+    <press>ccccc</press>
+    </book>
+    
+    <book>
+    <title>aaa</title>
+    <author>bbbb</author>
+    <press>ccccc</press>
+    </book>
+    </books>
+

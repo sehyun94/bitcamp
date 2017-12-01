@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--  속성 (attribute) -->
+
+<books>
+
+    <!--  태그로 정보 표현 -->
+    <book>
+        <title>오호라 이것이 자바다!</title>
+        <author>비트캠프</author>
+        <page>897</page>
+        <isbn>1232134234</isbn>
+        <language>한국어</language>
+        <press>비트출판사</press>
+        <description>자바 기초서. 짱이에요!</description>
+    </book>
+    
+    <!--  속성만으로 정보 표현 -->
+    <book 
+    title="오호라 이것이 자바다!" 
+    author="비트캠프"
+    page="897"
+    isbn="1232134234"
+    language="한국어"
+    press="비트출판사"
+    description="자바 기초서. 짱이에요!"/>
+    
+    <!-- 태그와 속성을 혼합하여 책 정보 표현 -->
+    <book isbn="1232134234" language="한국어" >
+        <title>오호라 이것이 자바다!</title>
+        <author>비트캠프</author>
+        <page>897</page>
+        <press>비트출판사</press>
+        <description>자바 기초서. 짱이에요!</description>
+    </book>
+</books>
+
+
+
+
+
