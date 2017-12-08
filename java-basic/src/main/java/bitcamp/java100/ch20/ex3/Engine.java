@@ -6,6 +6,13 @@ public class Engine {
     private int valve;
     private int cc;
     
+    
+    
+    @Override
+    public String toString() {
+        return "Engine [name=" + name + ", valve=" + valve + ", cc=" + cc + "]";
+    }
+
     public Engine() {
         System.out.println("Engine()");
     }
