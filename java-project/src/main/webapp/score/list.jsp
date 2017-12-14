@@ -44,7 +44,7 @@ try {
     PrintWriter out2 = new PrintWriter(out);
     for (Score score : list) {
         out2.printf("<tr><td>%d</td><td>"
-                + "<a href='view?no=%d'>%s</a>"
+                + "<a href='view.jsp?no=%d'>%s</a>"
                 + "</td><td>%d</td><td>%3.1f</td></tr>\n",
                 score.getNo(),
                 score.getNo(),

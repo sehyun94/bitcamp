@@ -1,7 +1,8 @@
 <%@page import="java.io.PrintWriter"%>
-<%@page import="java100.app.domain.Score"%>
+<%@page import="java.util.List"%>
+<%@page import="java100.app.domain.Member"%>
 <%@page import="java100.app.listener.ContextLoaderListener"%>
-<%@page import="java100.app.dao.ScoreDao"%>
+<%@page import="java100.app.dao.MemberDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true"%>
@@ -10,44 +11,53 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>성적관리</title>
+<title>회원관리</title>
 <link rel='stylesheet' href='../node_modules/bootstrap/dist/css/bootstrap.min.css'>
 <link rel='stylesheet' href='../css/common.css'>
-
-</head>
 <body>
 <div class='container'>
-<h1>[성적 삭제]</h1>
-<%
-ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(ScoreDao.class);
 
+<%
+MemberDao memberDao = ContextLoaderListener.iocContainer.getBean(MemberDao.class);
 RequestDispatcher rd = request.getRequestDispatcher("/header");
 rd.include(request, response);
+%>
 
+<h1>[회원 목록]</h1>
+<p><a href='form.jsp' class='btn btn-primary btn-sm'>추가</a></p>
+<table class='table table-hover'>
+<thead>
+<tr>
+<th>번호</th><th>이름</th><th>이메일</th><th>등록일</th>
+</tr>
+</thead>
+<tbody>
+<%
 try {
-    PrintWriter out2 = new PrintWriter(out);
-    int no = Integer.parseInt(request.getParameter("no"));
 
-    if (scoreDao.delete(no) > 0) {
-        out.println("<p>삭제했습니다.</p>");
-    } else {
-        out2.printf("<p>'%d'의 성적 정보가 없습니다.</p>\n", no);
+    List<Member> list = memberDao.selectList();
+    PrintWriter out2 = new PrintWriter(out);
+    for (Member member : list) {
+        out2.printf("<tr><td>%d</td><td>"
+                + "<a href='view.jsp?no=%d'>%s</a>"
+                + "</td><td>%s</td><td>%s</td></tr>\n",
+                member.getNo(),
+                member.getNo(),
+                member.getName(), 
+                member.getEmail(),
+                member.getCreatedDate());
     }
 
 } catch (Exception e) {
     e.printStackTrace(); // for developer
     out.println(e.getMessage()); // for user
-	out.flush();         
-
-    rd = request.getRequestDispatcher("/footer");
-    rd.include(request, response);
 }
 %>
 
-<p><a href='list.jsp' class='btn btn-primary btn-sm'>목록</a></p>
+</tbody>
+</table>
 <%
 out.flush();
-
 rd = request.getRequestDispatcher("/footer");
 rd.include(request, response);
 %>
@@ -58,4 +68,4 @@ rd.include(request, response);
 </body>
 </html>
 
-
+    

@@ -38,7 +38,7 @@
 </nav>
 </header>
 <h1>[게시물 등록]</h1>
-<form action='add' method='post'>
+<form action='add.jsp' method='post'>
 <div class='form-group row'>
 <label  class='col-sm-2 col-form-label col-form-label-sm' for='title'>제목</label>
 <div class='col-sm-10'>
