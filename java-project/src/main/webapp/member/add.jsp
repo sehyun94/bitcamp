@@ -5,6 +5,7 @@
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true"%>
 
+<% MemberDao memberDao = ContextLoaderListener.iocContainer.getBean(MemberDao.class); %> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,13 +15,9 @@
 <body>
 <div class='container'>
 
-
-<%
- RequestDispatcher rd = request.getRequestDispatcher("/header");
- rd.include(request, response);
- MemberDao memberDao = ContextLoaderListener.iocContainer.getBean(MemberDao.class);
-%>
 <h1>[회원 등록]</h1>
+
+<jsp:include page="/header.jsp"/>
 
 <%
 try {
@@ -29,32 +26,22 @@ try {
     member.setName(request.getParameter("name"));
     member.setEmail(request.getParameter("email"));
     member.setPassword(request.getParameter("password"));
-    memberDao.insert(member);
+    memberDao.insert(member);  %>
 
-    out.println("<p>저장하였습니다.</p>");
-
+    <p>저장하였습니다.</p>
+<%
 } catch (Exception e) {
-    e.printStackTrace(); // for developer
-    out.println(e.getMessage()); // for user
-}
-%>
+    e.printStackTrace(); %> 
+    <%= e.getMessage() %> 
+    <% } %>
 
-</div>
-
-<div class='form-group row'>
-<div class='col-sm-10'>
 <p><a href='list.jsp' class='btn btn-primary btn-sm'>목록</a></p>
 </div>
-<%
-out.flush();
-rd = request.getRequestDispatcher("/footer");
-rd.include(request, response);
-%>
-</div>
+<jsp:include page="/footer.jsp"/>
 
-<script src='../node_modules/jquery/dist/jquery.slim.min.js'></script>
-<script src='../node_modules/popper.js/dist/umd/popper.min.js'></script>
-<script src='../node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
+
+
+<%@ include file="../jslib.txt" %>
 </body>
 </html>
     

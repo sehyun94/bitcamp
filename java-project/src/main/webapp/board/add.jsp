@@ -14,10 +14,9 @@
 <body>
 <div class='container'>
 <%
-RequestDispatcher rd = request.getRequestDispatcher("/header");
-rd.include(request, response);
-BoardDao boardDao = ContextLoaderListener.iocContainer.getBean(BoardDao.class);
+BoardDao boardDao = ContextLoaderListener.iocContainer.getBean(BoardDao.class); 
 %>
+<jsp:include page="/header.jsp"/>
 <h1>[게시물 등록]</h1>
 <%
 try {
@@ -26,13 +25,14 @@ try {
     board.setContent(request.getParameter("content"));
 
     boardDao.insert(board);
-    out.println("<p>저장하였습니다.</p>");
+%>    
+    <p>저장하였습니다.</p>
 
+<%
 } catch (Exception e) {
-    e.printStackTrace(); // for developer
-    out.println(e.getMessage()); // for user
-}
-%>
+    e.printStackTrace(); %>
+ <%= e.getMessage() %> 
+   <% } %>
 
 <div class='form-group row'>
 <div class='col-sm-10'>
@@ -40,17 +40,10 @@ try {
 </div>
 </div>
 
-<%
-out.flush();
-
-rd = request.getRequestDispatcher("/footer");
-rd.include(request, response);
-%>
-
+<jsp:include page="/footer.jsp"/>
 </div>
-<script src='../node_modules/jquery/dist/jquery.slim.min.js'></script>
-<script src='../node_modules/popper.js/dist/umd/popper.min.js'></script>
-<script src='../node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
+
+<%@ include file="../jslib.txt" %>
 
 </body>
 </html>

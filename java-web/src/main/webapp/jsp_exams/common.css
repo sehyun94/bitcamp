@@ -1,16 +1,14 @@
 @charset "UTF-8";
 
-pre{
-	background-color : lightgray;
-	border : 3px dashed darkgray;
-	padding: 5px;
-	
-}
-pre.jps {
-	backgound-color lightgray;
+pre {
+    border: 3px dashed darkgray;
+    padding: 10px;
 }
 
-pre.jave {
-    backgound-color yellow;
-    
+pre.jsp {
+    background-color: lightgray;
+}
+
+pre.java {
+    background-color: yellow;
 }
