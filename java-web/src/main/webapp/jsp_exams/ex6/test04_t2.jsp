@@ -9,17 +9,21 @@
 <link rel='stylesheet' href='../common.css'>
 </head>
 <body>
+<h1>jsp:setProperty 테스트</h1>
+셋터 호출하기
+
 <%
+// 객체 생성
 domain.Member m = new domain.Member();
+
+// 보관소에 저장한다.
 pageContext.setAttribute("m", m);
 %>
 
+<jsp:setProperty name="m" property="name" value="홍길동"/>
 
-<jsp:setProperty  name="m" property="name" value="홍길동"/>
-
-<h2>MEmber 객체 내용</h2>
-<%= m.toString() %>
-
+<h2>Member 객체 내용</h2>
+<%=m.toString()%>
 
 </body>
 </html>

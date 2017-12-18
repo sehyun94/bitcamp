@@ -1,10 +1,7 @@
-<%@page import="java.io.PrintWriter"%>
 <%@page import="java100.app.domain.Score"%>
-<%@page import="java100.app.listener.ContextLoaderListener"%>
-<%@page import="java100.app.dao.ScoreDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
-
+<%@ taglib  uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 
 
 <!DOCTYPE html>
@@ -20,29 +17,25 @@
 
 <jsp:include page="/header.jsp"/>
 
-    <h1>[성적 상세정보]</h1>
+<h1>[성적 상세정보]</h1>
 
-<%
-ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(ScoreDao.class);
-try {
-    int no = Integer.parseInt(request.getParameter("no"));
-    Score score = scoreDao.selectOne(no);
-    
-    if (score != null) {
-%>
+<c:if test="${not empty score}">
+
  
-    <form action='update.jsp' method='post'>
+    <form action='update' method='post'>
     <div class='form-group row'>
     <label for='no'  class='col-sm-2 col-form-label'>번호</label>
     <div class='col-sm-10'>
-    <input class='form-control' readonly id='no' type='number' name='no' value='<%=score.getNo()%>'> 
+    <input class='form-control' readonly id='no' type='number'
+     name='no' value='${score.no}'> 
     </div>
     </div>
 
     <div class='form-group row'>
     <label for='name' class='col-sm-2 col-form-label'>이름</label>
     <div class='col-sm-10'>
-    <input class='form-control' id='name' type='text' name='name' value='<%=score.getName()%>'> 
+    <input class='form-control' id='name' type='text'
+     name='name' value='${score.name}'> 
         
     </div>
     </div>
@@ -50,14 +43,14 @@ try {
     <div class='form-group row'>
     <label for='kor'  class='col-sm-2 col-form-label' >국어</label>
     <div class='col-sm-10'>
-    <input class='form-control' id='kor' type='number' name='kor' value='<%=score.getKor()%>'> 
+    <input class='form-control' id='kor' type='number' name='kor' value='${score.kor}'> 
     </div>
     </div>
 
 <div class='form-group row'>
 <label for='eng' class='col-sm-2 col-form-label'>영어</label>
 <div class='col-sm-10'>
-<input class='form-control' id='eng' type='number' name='eng' value='<%=score.getEng()%>'> 
+<input class='form-control' id='eng' type='number' name='eng' value='${score.eng}'> 
                         
 </div>
 </div>
@@ -65,43 +58,37 @@ try {
 <div class='form-group row'>
 <label class='col-sm-2 col-form-label' for='math'>수학</label>
 <div class='col-sm-10'>
-<input class='form-control' id='math' type='number' name='math' value='<%=score.getMath()%>'> 
+<input class='form-control' id='math' type='number' name='math' value='${score.math}'> 
 </div>
 </div>
 
 <div class='form-group row'>
 <label class='col-sm-2 col-form-label'  for='sum'>합계</label>
 <div class='col-sm-10'>
-<input class='form-control' readonly id='sum' type='text' value='<%=score.getSum() %>'> 
+<input class='form-control' readonly id='sum' type='text' value='${score.sum}'> 
 </div>
 </div>
 
 <div class='form-group row'>
 <label class='col-sm-2 col-form-label col-form-label-sm' for='aver'>평균</label>
 <div class='col-sm-10'>
-<input class='form-control' readonly id='aver' type='text' value='<%=score.getAver()%>'> 
+<input class='form-control' readonly id='aver' type='text' value='${score.aver}'> 
 </div>
 </div>
 
 <div class='form-group row'>
 <div class='col-sm-10'>
 <button class='btn btn-primary btn-sm'>변경</button>
-<a href='delete.jsp?no=<%=score.getNo()%>' class='btn btn-primary btn-sm'>삭제</a>
+<a href='delete?no=${score.no}' class='btn btn-primary btn-sm'>삭제</a>
 </div>
 </div>
 </form>
 
-<%
-            } else { %>
-                <p>'<%=no%>'의 성적 정보가 없습니다.</p> 
-<%                
-            }
+</c:if>
+<c:if test="${empty score }">
+    <p>'${param.no}'의 성적 정보가 없습니다.</p>
+</c:if>
 
-        } catch (Exception e) {
-            e.printStackTrace(); // for developer  %>
-            <%=e.getMessage() %>
-<%  
-        } %>
 <jsp:include page="/footer.jsp"/>
       
 

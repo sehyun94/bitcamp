@@ -39,6 +39,8 @@ eclipse {
 
 
 compileJava {
+
+
     // 소스 파일이 UTF-8 규칙에 따라 저장되었음을 컴파일러에게 알린다.
     options.encoding = 'UTF-8'
 }
@@ -53,6 +55,9 @@ repositories {
 }
 
 dependencies {
+ //jstl 라이브러리 
+    compile group: 'javax.servlet', name: 'jstl', version: '1.2'
+
     // MYSQL DMBS의 JDBC Driver
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.44'
     

@@ -9,14 +9,19 @@
 <link rel='stylesheet' href='../common.css'>
 </head>
 <body>
+<h1>jsp:setProperty 테스트</h1>
+셋터 호출하기
+
 <%
+// 객체 생성
 domain.Member m = new domain.Member();
 %>
 
-<jsp:setProperty property="name" name="m" value="홍길동"/>
-<h2>MEmber 객체 내용</h2>
-<%= m.toString() %>
+<%-- 보관소에 저장하지 않았기 때문에 NullPointerException 발생! --%>
+<jsp:setProperty name="m" property="name" value="홍길동"/>
 
+<h2>Member 객체 내용</h2>
+<%=m.toString()%>
 
 </body>
 </html>
