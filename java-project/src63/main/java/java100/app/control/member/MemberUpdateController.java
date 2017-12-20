@@ -18,7 +18,7 @@ public class MemberUpdateController {
     @RequestMapping
     public String update (HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        Member member = new Member();
+        Member member = new Member(); 
         member.setNo(Integer.parseInt(request.getParameter("no")));
         member.setName(request.getParameter("name"));
         member.setEmail(request.getParameter("email"));
