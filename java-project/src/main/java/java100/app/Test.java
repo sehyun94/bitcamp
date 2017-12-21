@@ -1,17 +1,27 @@
 package java100.app;
 
+import org.springframework.context.annotation.Bean;
+
 public class Test {
 
-    public static void main(String[] args) {
-        String[] path = 
-                "/score/add?name=aaa&kor=100&eng=100".split("\\?");
-        
-        String[] arr = path[1].split("&");
-        for (String param : arr) {
-            String[] kv = param.split("=");
-            System.out.printf("%s : %s\n", kv[0], kv[1]);
+    @Bean
+    static void sum(int...values) {
+        int sum = 0;
+        for (int v : values) {
+            sum += v;
         }
+        System.out.println(sum);
+    }
+
+    public static void main(String[] args) {
+
+        sum();
+        sum(10);
+        sum(10,20,30);
+        sum(new int[] {10, 20, 30, 40, 50});
+        
 
     }
+
 
 }
