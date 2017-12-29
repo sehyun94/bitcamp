@@ -1,6 +1,8 @@
 package java100.app.control;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +23,10 @@ public class BoardController {
     
     @RequestMapping("/board/list")
     public String list (HttpServletRequest request, HttpServletResponse response) throws Exception {
-        List<Board> list = boardDao.selectList();
+        
+        Map<String, Object> data = new HashMap<>();
+        
+        List<Board> list = boardDao.findAll(data);
         // 작업한 결과를 JSP에 넘겨주기 위해 ServletRequest 보관소에 저장한다,
         request.setAttribute("list", list);
         return "/board/list.jsp";
@@ -64,7 +69,7 @@ public class BoardController {
             @RequestParam("no") int no,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        Board board = boardDao.selectOne(no);
+        Board board = boardDao.findByNo(no);
 
         
         // 작업한 결과를 JSP에 넘겨주기 위해 ServletRequest 보관소에 저장한다,

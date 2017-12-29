@@ -25,10 +25,15 @@
     <servlet>
         <servlet-name>app</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+       
+       <!-- 만약 contextConfigLocation 값이 없다면, 
+            DispathcerServlet은 기본 경로로 찾는다.
+             즉 /WEB-INF/(서블릿이름)-servlet.xml 파일을 찾는다. 
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>/WEB-INF/app-servlet.xml</param-value>
         </init-param>
+         -->
         <load-on-startup>1</load-on-startup>
     <!-- Servlet 3.0 의 파일 업로드를 사용하려면 다음과 같이 
           멀티파트 관련 정보를 설정한다. -->

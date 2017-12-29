@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<p>웹 서버에 application/json 타입의 값 보내기</p>
+<button type="button" onclick="f1()">요청(Json => Map)</button>
+
+<p>웹 서버에 application/json 타입의 값 보내기</p>
+<button type="button" onclick="f2()">요청(Json => User)</button>
+
+<p>웹 서버에 application/json 타입의 값 보내기</p>
+<button type="button" onclick="f3()">요청(Json => User) - 자동변환</button>
+
+<script>
+function f1() {
+	var xhr = new XMLHttpRequest();
+    xhr.open('POST', '../app/v02/test17/m1', false);
+    xhr.setRequestHeader('Content-Type','text/plain');
+   
+    var obj = {
+    	    name: "aaa",
+    	    age: 20,
+    	    tel: "1111-1111",
+    	    email: "aaa@test.com"
+    };
+    
+    // 자바스크립트 객체를 문자열로 바꾼다.
+    var str = JSON.stringify(obj);
+    xhr.send(str);
+    window.alert(xhr.responseText);
+}
+
+function f2() {
+	var xhr = new XMLHttpRequest();
+    xhr.open('POST', '../app/v02/test17/m2', false);
+    xhr.setRequestHeader('Content-Type','text/plain');
+   
+    var obj = {
+    	    name: "aaa",
+    	    age: 20,
+    	    tel: "1111-1111",
+    	    email: "aaa@test.com"
+    };
+    
+    // 자바스크립트 객체를 문자열로 바꾼다.
+    var str = JSON.stringify(obj);
+    xhr.send(str);
+    window.alert(xhr.responseText);
+}
+
+function f3() {
+	var xhr = new XMLHttpRequest();
+    xhr.open('POST', '../app/v02/test17/m3', false);
+    xhr.setRequestHeader('Content-Type','application/json');
+   
+    var obj = {
+    	    name: "aaa",
+    	    age: 20,
+    	    tel: "1111-1111",
+    	    email: "aaa@test.com"
+    };
+    
+    // 자바스크립트 객체를 문자열로 바꾼다.
+    var str = JSON.stringify(obj);
+    xhr.send(str);
+    window.alert(xhr.responseText);
+}
+
+
+</script>
+</body>
+</html>

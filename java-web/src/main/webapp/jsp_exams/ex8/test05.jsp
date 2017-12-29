@@ -15,7 +15,7 @@ OGNL(Object Graph NAvigation Language) 이란?<br>
 점(.)이나 대괄호([]) 등을 이용하여 객체의 변수 값을 쉽게 꺼내게 해주는 문법이다.
 
 <%
-application.setAttribute("name", "홍길동");
+application.setAttribute("name", "홍길동");  
 application.setAttribute("age", "20");
 application.setAttribute("working", "true");
 %>

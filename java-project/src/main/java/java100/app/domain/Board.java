@@ -8,11 +8,12 @@ public class Board {
     protected String content;
     protected Date regDate;
     protected int viewCount;
+
     
     @Override
     public String toString() {
-        return "Board [no=" + no + ", title=" + title + ", content=" + content + ", regDate=" + regDate + ", viewCount="
-                + viewCount + "]";
+        return "Board [no=" + no + ", title=" + title + ", content=" + content + ", regDate=" + regDate
+                + ", viewCount=" + viewCount + "]";
     }
 
     public int getNo() {
@@ -38,6 +39,9 @@ public class Board {
     public void setContent(String content) {
         this.content = content;
     }
+
+
+  
 
     public Date getRegDate() {
         return regDate;

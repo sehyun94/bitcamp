@@ -10,13 +10,13 @@ public class Listener02 implements ServletRequestListener {
     
     @Override  
     public void requestInitialized(ServletRequestEvent sre) {
-        System.out.println("Listener02.requestInitialized 호출");
+        System.out.println("Listener02.requestInitialized ");
         
         
     }
     @Override
     public void requestDestroyed(ServletRequestEvent sre) {
-        System.out.println("Listener02.requestDestroyed 호출");
+        System.out.println("Listener02.requestDestroyed ");
     }    
     
 }
