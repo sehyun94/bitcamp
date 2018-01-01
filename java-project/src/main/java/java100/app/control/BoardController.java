@@ -26,7 +26,7 @@ public class BoardController {
         
         Map<String, Object> data = new HashMap<>();
         
-        List<Board> list = boardDao.findAll(data);
+        List<Board> list = boardDao.selectList();
         // 작업한 결과를 JSP에 넘겨주기 위해 ServletRequest 보관소에 저장한다,
         request.setAttribute("list", list);
         return "/board/list.jsp";
@@ -69,8 +69,7 @@ public class BoardController {
             @RequestParam("no") int no,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        Board board = boardDao.findByNo(no);
-
+        Board board = boardDao.selectOne(no);
         
         // 작업한 결과를 JSP에 넘겨주기 위해 ServletRequest 보관소에 저장한다,
         request.setAttribute("board", board);
