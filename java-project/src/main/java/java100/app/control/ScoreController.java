@@ -17,9 +17,6 @@ import java100.app.domain.Score;
 
 public class ScoreController {
 
-    public ScoreController() {
-        System.out.println("ScoreController 생성되었음!");
-    }
     @Autowired ScoreDao scoreDao;
 
     @RequestMapping("/score/list")

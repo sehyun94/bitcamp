@@ -24,7 +24,6 @@ public class BoardController {
     @RequestMapping("/board/list")
     public String list (HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        Map<String, Object> data = new HashMap<>();
         
         List<Board> list = boardDao.selectList();
         // 작업한 결과를 JSP에 넘겨주기 위해 ServletRequest 보관소에 저장한다,
@@ -68,7 +67,7 @@ public class BoardController {
     public String view (
             @RequestParam("no") int no,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+        boardDao.upView(no);
         Board board = boardDao.selectOne(no);
         
         // 작업한 결과를 JSP에 넘겨주기 위해 ServletRequest 보관소에 저장한다,
