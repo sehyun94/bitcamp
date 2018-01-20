@@ -14,26 +14,35 @@ import java100.app.dao.MemberDao;
 import java100.app.domain.Member;
 import java100.app.listener.ContextLoaderListener;
 
-@SuppressWarnings("serial")
 @WebServlet("/member/list")
+@SuppressWarnings("serial")
 public class MemberListServlet extends HttpServlet {
     
-    
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        MemberDao memberDao = ContextLoaderListener.iocContainer.getBean(MemberDao.class);
-        
-        
+    protected void doGet(
+            HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        MemberDao memberDao = ContextLoaderListener.iocContainer.getBean(
+                MemberDao.class);
         List<Member> list = memberDao.selectList();
         
-        // 작업한 결과를 JSP에 넘겨주기 위해 ServletRequest 보관소에 저장한다,
+        // 작업한 결과를 JSP에게 넘겨주기 위해 ServletRequest 보관소에 저장한다.
         request.setAttribute("list", list);
         
+        // 이 값을 출력할 JSP로 인클루딩한다.
+        // => 인클루드를 실행하는 쪽에서 콘텐츠 타입을 설정해야 한다.
+        // => 인클루드 되는 쪽에서는 여기에서 설정한 것을 그대로 따른다.
         response.setContentType("text/html;charset=UTF-8");
         
-        // 이 값을 출력할 JSP로 인클루딩 한다.
         RequestDispatcher rd = request.getRequestDispatcher("/member/list.jsp");
         rd.include(request, response);
         
     }
 }
+
+
+
+
+
+
+
+

@@ -15,21 +15,23 @@ import java100.app.domain.Score;
 import java100.app.listener.ContextLoaderListener;
 
 @SuppressWarnings("serial")
-@WebServlet(urlPatterns="/score/list")
+@WebServlet(urlPatterns="/score/list")   
 public class ScoreListServlet extends HttpServlet {
-
-
-    @Override
-    public void service(HttpServletRequest request, HttpServletResponse response)
+    
+    public void service(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(ScoreDao.class);
-        response.setContentType("text/plain;charset=UTF-8");      
+        
+        ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(
+                ScoreDao.class);
+        
+        response.setContentType("text/plain;charset=UTF-8");
+        
         PrintWriter out = response.getWriter();
         out.println("[성적 목록]");
-
+        
         try {
             List<Score> list = scoreDao.selectList();
-
+            
             for (Score score : list) {
                 out.printf("%4d, %-4s, %4d, %6.1f\n",
                         score.getNo(),
@@ -37,13 +39,12 @@ public class ScoreListServlet extends HttpServlet {
                         score.getSum(), 
                         score.getAver());
             }
-
+            
         } catch (Exception e) {
             e.printStackTrace(); // for developer
             out.println(e.getMessage()); // for user
         }
     }
-
 }
 
 

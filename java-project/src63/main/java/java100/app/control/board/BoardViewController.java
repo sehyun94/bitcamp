@@ -11,23 +11,30 @@ import java100.app.dao.BoardDao;
 import java100.app.domain.Board;
 
 @Component("/board/view")
-public class BoardViewController  {
+public class BoardViewController {
     
     @Autowired BoardDao boardDao;
     
     @RequestMapping
-    public String view (HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+    public String view(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+
         int no = Integer.parseInt(request.getParameter("no"));
         Board board = boardDao.selectOne(no);
-
         
-        // 작업한 결과를 JSP에 넘겨주기 위해 ServletRequest 보관소에 저장한다,
+        // 작업한 결과를 JSP에게 넘겨주기 위해 ServletRequest 보관소에 저장한다.
         request.setAttribute("board", board);
-        
-        response.setContentType("text/html;charset=UTF-8");
         
         return "/board/view.jsp";
         
     }
 }
+
+
+
+
+
+
+
+

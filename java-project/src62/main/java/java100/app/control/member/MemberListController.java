@@ -17,14 +17,23 @@ public class MemberListController implements PageController {
     
     @Autowired MemberDao memberDao;
     
-    @Override
-    public String service (HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+    public String service(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         List<Member> list = memberDao.selectList();
         
+        // 작업한 결과를 JSP에게 넘겨주기 위해 ServletRequest 보관소에 저장한다.
         request.setAttribute("list", list);
         
         return "/member/list.jsp";
         
     }
 }
+
+
+
+
+
+
+
+

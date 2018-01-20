@@ -1,42 +1,46 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" 
+    contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true"%>
-
 <!DOCTYPE html>
 <html>
 <head>
-<title>게시판관리</title>
+<title>게시판</title>
 <link rel='stylesheet' href='../node_modules/bootstrap/dist/css/bootstrap.min.css'>
 <link rel='stylesheet' href='../css/common.css'>
+</head>
 <body>
 <div class='container'>
+
 <jsp:include page="/header.jsp"/>
 
-<h1>[게시물 등록]</h1>
-<form action='add.do' method='post'>
+<h1>새 게시물</h1>
+<form action="add.do" method='post'>
 <div class='form-group row'>
-<label  class='col-sm-2 col-form-label col-form-label-sm' for='title'>제목</label>
+<label for='title' class='col-sm-2 col-form-label'>제목</label>
 <div class='col-sm-10'>
-<input  class='form-control' id='title' type='text' name='title'>
+<input class='form-control' id='title' type='text' name='title'>
 </div>
 </div>
 <div class='form-group row'>
-<label  class='col-sm-2 col-form-label col-form-label-sm' for='content'>내용</label>
+<label for='content' class='col-sm-2 col-form-label'>내용</label>
 <div class='col-sm-10'>
-<input class='form-control' id='content' type='text' name='content'>
-
+<textarea class='form-control' id='content' name='content'></textarea>
 </div>
 </div>
-
-<button class='btn btn-primary btn-sm'>추가</button>
+<div class='form-group row'>
+<div class='col-sm-10'>
+<button class='btn btn-primary btn-sm'>등록</button>
+</div>
+</div>
 </form>
 
 <jsp:include page="/footer.jsp"/>
 
 </div>
 
-<%@ include file="../jslib.txt" %>
+<%@ include file="../jslib.txt"%>
 
 </body>
 </html>
-
+    

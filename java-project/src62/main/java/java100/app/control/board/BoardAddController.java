@@ -14,18 +14,25 @@ import java100.app.domain.Board;
 public class BoardAddController implements PageController {
     
     @Autowired BoardDao boardDao;
-    @Override
-    public String service (HttpServletRequest request, HttpServletResponse response) throws Exception {
+    
+    public String service(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         
         Board board = new Board();
         board.setTitle(request.getParameter("title"));
         board.setContent(request.getParameter("content"));
-
-       
+        
         boardDao.insert(board);
         
         return "redirect:list.do";
-     
-        
     }
 }
+
+
+
+
+
+
+
+

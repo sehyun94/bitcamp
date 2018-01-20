@@ -16,13 +16,20 @@ public class MemberAddController {
     @Autowired MemberDao memberDao;
     
     @RequestMapping
-    public String add (
-           Member member,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String add(
+            Member member,
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         
         memberDao.insert(member);
-        
         return "redirect:list.do";
-        
     }
 }
+
+
+
+
+
+
+
+

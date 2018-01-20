@@ -14,19 +14,27 @@ import java100.app.domain.Score;
 public class ScoreAddController implements PageController {
     
     @Autowired ScoreDao scoreDao;
-    @Override
-    public String service (HttpServletRequest request, HttpServletResponse response) throws Exception {
+    
+    public String service(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         
         Score score = new Score();
         score.setName(request.getParameter("name"));
         score.setKor(Integer.parseInt(request.getParameter("kor")));
         score.setEng(Integer.parseInt(request.getParameter("eng")));
         score.setMath(Integer.parseInt(request.getParameter("math")));
-
+        
         scoreDao.insert(score);
         
         return "redirect:list.do";
-        
-        
     }
 }
+
+
+
+
+
+
+
+

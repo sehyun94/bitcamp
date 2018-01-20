@@ -9,20 +9,26 @@ import org.springframework.stereotype.Component;
 import java100.app.control.PageController;
 import java100.app.dao.RoomDao;
 
-
 @Component("/room/delete")
 public class RoomDeleteController implements PageController {
     
-    @Autowired RoomDao roomDao; 
+    @Autowired RoomDao roomDao;
     
-    @Override
-    public String service (HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+    public String service(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         int no = Integer.parseInt(request.getParameter("no"));
+        
         roomDao.delete(no);
         
         return "redirect:list.do";
-      
-        
     }
 }
+
+
+
+
+
+
+
+

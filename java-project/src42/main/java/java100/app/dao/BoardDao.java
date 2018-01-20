@@ -19,7 +19,7 @@ public class BoardDao {
         ResultSet rs = null;
         
         try {
-            ds = (DataSource)ApplicationContext.getBean("mysqlDataSource");
+            ds = (DataSource) ApplicationContext.getBean("mysqlDataSource"); 
             con = ds.getConnection();
             pstmt = con.prepareStatement(
                 "select no,title,regdt,vwcnt from ex_board");
@@ -55,7 +55,7 @@ public class BoardDao {
         PreparedStatement pstmt = null;
         
         try {
-            ds = (DataSource)ApplicationContext.getBean("mysqlDataSource");
+            ds = (DataSource) ApplicationContext.getBean("mysqlDataSource"); 
             con = ds.getConnection();
             pstmt = con.prepareStatement(
                     "insert into ex_board(title,conts,regdt)"
@@ -80,7 +80,7 @@ public class BoardDao {
         PreparedStatement pstmt = null;
         
         try {
-            ds = (DataSource)ApplicationContext.getBean("mysqlDataSource");
+            ds = (DataSource) ApplicationContext.getBean("mysqlDataSource"); 
             con = ds.getConnection();
             pstmt = con.prepareStatement(
                     "update ex_board set title=?, conts=? where no=?");
@@ -95,7 +95,7 @@ public class BoardDao {
             throw new DaoException(e);
         } finally {
             try {pstmt.close();} catch (Exception e) {}
-           ds.returnConnection(con);
+            ds.returnConnection(con);
         }
     }
     
@@ -105,7 +105,7 @@ public class BoardDao {
         PreparedStatement pstmt = null;
         
         try {
-            ds = (DataSource)ApplicationContext.getBean("mysqlDataSource");
+            ds = (DataSource) ApplicationContext.getBean("mysqlDataSource"); 
             con = ds.getConnection();
             pstmt = con.prepareStatement(
                     "delete from ex_board where no=?");
@@ -118,7 +118,7 @@ public class BoardDao {
             throw new DaoException(e);
         } finally {
             try {pstmt.close();} catch (Exception e) {}
-           ds.returnConnection(con);
+            ds.returnConnection(con);
         }
     }
     
@@ -127,7 +127,7 @@ public class BoardDao {
         Connection con = null;
         
         try {
-            ds = (DataSource)ApplicationContext.getBean("mysqlDataSource");
+            ds = (DataSource) ApplicationContext.getBean("mysqlDataSource"); 
             con = ds.getConnection();
             
             try (PreparedStatement pstmt = con.prepareStatement(

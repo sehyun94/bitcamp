@@ -14,17 +14,17 @@ import java100.app.domain.Score;
 import java100.app.listener.ContextLoaderListener;
 
 @SuppressWarnings("serial")
-@WebServlet(urlPatterns="/score/update")
+@WebServlet(urlPatterns="/score/update")   
 public class ScoreUpdateServlet extends HttpServlet {
- 
     
-    @Override
-    public void service(HttpServletRequest request, HttpServletResponse response)
-                throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
         
-        ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(ScoreDao.class);
-        request.setCharacterEncoding("UTF-8");
+        ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(
+                ScoreDao.class);
+        
         response.setContentType("text/html;charset=UTF-8");
+        
         PrintWriter out = response.getWriter();
         out.println("<!DOCTYPE html>");
         out.println("<html>");
@@ -32,7 +32,7 @@ public class ScoreUpdateServlet extends HttpServlet {
         out.println("<title>성적관리</title>");
         out.println("</head>");
         out.println("<body>");
-        out.println("<h1>[성적 변경]</h1>");
+        out.println("<h1>성적 변경</h1>");
         
         try {
             Score score = new Score();
@@ -52,12 +52,10 @@ public class ScoreUpdateServlet extends HttpServlet {
             e.printStackTrace(); // for developer
             out.println(e.getMessage()); // for user
         }
-        out.println("<p><a href='list'><button>학생목록으로 돌아가기</button></a></p>");
+        out.println("<p><a href='list'>목록</a></p>");
         out.println("</body>");
         out.println("</html>");
     }
-   
-    
 }
 
 

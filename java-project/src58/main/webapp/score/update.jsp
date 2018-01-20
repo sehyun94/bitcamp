@@ -17,10 +17,8 @@
 <h1>성적 변경</h1>
 <jsp:useBean id="count" type="java.lang.Integer" scope="request"></jsp:useBean>
 <%
-
-
 try {
-    if(count > 0) { %>
+    if(count > 0) {%>
         <p>변경하였습니다.</p>
 <%
     } else {%>
@@ -35,12 +33,12 @@ try {
 }%>
 
 <p><a href='list' class='btn btn-primary btn-sm'>목록</a></p>
+
 <jsp:include page="/footer.jsp"/>
+
 </div>
 
-<script src='../node_modules/jquery/dist/jquery.slim.min.js'></script>
-<script src='../node_modules/popper.js/dist/umd/popper.min.js'></script>
-<script src='../node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
+<%@ include file="../jslib.txt"%>
 
 </body>
 </html>

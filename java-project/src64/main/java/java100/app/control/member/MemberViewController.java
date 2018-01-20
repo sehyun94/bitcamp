@@ -17,16 +17,21 @@ public class MemberViewController {
     @Autowired MemberDao memberDao;
     
     @RequestMapping
-    public String view (
+    public String view(
             @RequestParam("no") int no,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+
         Member member = memberDao.selectOne(no);
-        
-        
         request.setAttribute("member", member);
-        
         return "/member/view.jsp";
-        
     }
 }
+
+
+
+
+
+
+
+

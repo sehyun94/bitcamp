@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>CSS3 Selector Basic</title>
+    <style>
+    ul {
+        overflow: hidden;
+        border: 3px dotted red  ;
+    }
+        li {
+            border : 1px solid white;
+            background-color: gray;
+            color : white;
+            list-style: none;
+            padding: 15px;
+            /* margin: 10px; */
+            float:left;
+             width: 80px;
+             height: 60px;
+            }
+            
+        p {
+               border: 3px solid green;
+        }
+        li:first-child { border-radius: 20px 0 0 20px; }
+        li:last-child { border-radius: 0 20px 20px 0; }
+         li:nth-child(2n) { background-color: blue; }
+        li:nth-child(2n+1) { background-color: black; }
+         
+        li:hover {
+            background-color: white;
+            color: black;
+        }
+        
+    </style>
+</head>
+<body>
+    <ul>
+        <li>First</li>
+        <li>Second</li>
+        <li>Third</li>
+        <li>Fourth</li>
+        <li>Fifth</li>
+        <li>Sixth</li>
+        <li>Seventh</li>
+    </ul>
+    <p>Hello!</p>
+</body>
+</html>

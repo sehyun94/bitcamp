@@ -8,6 +8,13 @@ import java100.app.domain.Member;
 
 public class MemberController implements Controller {
     
+    // MemberDao는 인터페이스이다. 
+    // 따라서 MemberDao 인터페이스를 구현한 어떤 클래스라도 주입 받을 수 있다.
+    // 이것이 인터페이스를 사용하는 이유이다.
+    // 상황에 따라 다양한 DAO 구현체를 주입 받을 수 있기 때문이다.
+    // 현재는 App 클래스에서 MySQL DBMS를 사용하는 구현체를 주입해 주지만,
+    // 만약 고객사의 DBMS가 Oracle이라면 
+    // 그 Oracle을 사용하는 DAO를 주입해줄 것이다. 
     MemberDao memberDao;
     
     public void setMemberDao(MemberDao memberDao) {

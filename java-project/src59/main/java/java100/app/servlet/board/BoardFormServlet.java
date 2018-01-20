@@ -9,23 +9,27 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java100.app.dao.BoardDao;
-import java100.app.domain.Board;
-import java100.app.listener.ContextLoaderListener;
-
-@SuppressWarnings("serial")
 @WebServlet("/board/form")
+@SuppressWarnings("serial")
 public class BoardFormServlet extends HttpServlet {
     
-    
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
+    protected void doGet(
+            HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // => 인클루드를 실행하는 쪽에서 콘텐츠 타입을 설정해야 한다.
+        // => 인클루드 되는 쪽에서는 여기에서 설정한 것을 그대로 따른다.
         response.setContentType("text/html;charset=UTF-8");
         
-        // 이 값을 출력할 JSP로 인클루딩 한다.
         RequestDispatcher rd = request.getRequestDispatcher("/board/form.jsp");
         rd.include(request, response);
         
     }
 }
+
+
+
+
+
+
+
+

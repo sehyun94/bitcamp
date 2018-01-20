@@ -17,14 +17,21 @@ public class ScoreViewController {
     @Autowired ScoreDao scoreDao;
     
     @RequestMapping
-    public String view (
+    public String view(
             @RequestParam("no") int no,
-            HttpServletRequest request,
+            HttpServletRequest request, 
             HttpServletResponse response) throws Exception {
         
         Score score = scoreDao.selectOne(no);
         request.setAttribute("score", score);
         return "/score/view.jsp";        
-        
     }
 }
+
+
+
+
+
+
+
+

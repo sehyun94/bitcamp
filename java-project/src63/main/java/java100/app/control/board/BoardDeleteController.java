@@ -15,13 +15,20 @@ public class BoardDeleteController {
     @Autowired BoardDao boardDao;
     
     @RequestMapping
-    public String delete (HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+    public String delete(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         int no = Integer.parseInt(request.getParameter("no"));
         boardDao.delete(no);
         
         return "redirect:list.do";
-        
-        
     }
 }
+
+
+
+
+
+
+
+

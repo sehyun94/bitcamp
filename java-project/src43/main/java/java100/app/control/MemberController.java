@@ -8,6 +8,7 @@ import java100.app.domain.Member;
 
 public class MemberController implements Controller {
     
+    // MemberDao를 이 클래스에서 준비하지 않고 외부에서 주입받을 것이다.
     MemberDao memberDao;
     
     public void setMemberDao(MemberDao memberDao) {

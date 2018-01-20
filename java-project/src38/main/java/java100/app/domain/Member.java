@@ -2,8 +2,6 @@ package java100.app.domain;
 
 import java.sql.Date;
 
-import java100.app.control.CSVFormatException;
-
 public class Member {
     
     protected int no;
@@ -11,7 +9,6 @@ public class Member {
     protected String email;
     protected String password;
     protected Date createdDate;
-    
     
     public Member() {}
     
@@ -21,9 +18,6 @@ public class Member {
         this.email = email;
     }
 
-    
-
-    
     @Override
     public String toString() {
         return "Member [no=" + no + ", name=" + name + ", email=" + email + ", password=" + password + ", createdDate="

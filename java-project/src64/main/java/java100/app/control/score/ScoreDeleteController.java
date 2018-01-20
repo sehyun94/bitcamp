@@ -11,18 +11,25 @@ import java100.app.annotation.RequestParam;
 import java100.app.dao.ScoreDao;
 
 @Component("/score/delete")
-public class ScoreDeleteController  {
+public class ScoreDeleteController {
     
     @Autowired ScoreDao scoreDao;
+    
     @RequestMapping
     public String delete(
             @RequestParam("no") int no,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         
         scoreDao.delete(no);
-       
         return "redirect:list.do";
-        
-       
     }
 }
+
+
+
+
+
+
+
+

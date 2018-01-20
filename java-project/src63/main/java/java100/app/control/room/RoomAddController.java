@@ -11,22 +11,30 @@ import java100.app.dao.RoomDao;
 import java100.app.domain.Room;
 
 @Component("/room/add")
-public class RoomAddController  {
+public class RoomAddController {
     
     @Autowired RoomDao roomDao;
     
     @RequestMapping
-    public String add (HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String add(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         
         Room room = new Room();
         room.setLocation(request.getParameter("location"));
         room.setName(request.getParameter("name"));
         room.setCapacity(Integer.parseInt(request.getParameter("capacity")));
-
+        
         roomDao.insert(room);
         
         return "redirect:list.do";
-   
-        
     }
 }
+
+
+
+
+
+
+
+

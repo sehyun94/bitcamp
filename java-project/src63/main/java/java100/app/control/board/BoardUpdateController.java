@@ -16,7 +16,9 @@ public class BoardUpdateController {
     @Autowired BoardDao boardDao;
     
     @RequestMapping
-    public String update (HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String update(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         
         Board board = new Board();
         board.setNo(Integer.parseInt(request.getParameter("no")));
@@ -26,7 +28,13 @@ public class BoardUpdateController {
         boardDao.update(board);
         
         return "redirect:list.do";
-        
-    
     }
 }
+
+
+
+
+
+
+
+

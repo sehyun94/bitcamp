@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" 
+    contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true"%>
 <!DOCTYPE html>
@@ -10,23 +11,19 @@
 </head>
 <body>
 <div class='container'>
+
 <jsp:include page="/header.jsp"/>
 
-
-<h1>[강의실 등록]</h1>
- 
-
-
-     <p>저장하였습니다.</p>
-
- 
+<h1>강의실 등록 결과</h1>
+<p>저장하였습니다.</p>
 
 <p><a href='list' class='btn btn-primary btn-sm'>목록</a></p>
 
 <jsp:include page="/footer.jsp"/>
+
 </div>
 
-<%@ include file="../jslib.txt" %>
+<%@ include file="../jslib.txt"%>
+
 </body>
 </html>
-    

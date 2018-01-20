@@ -11,21 +11,29 @@ import java100.app.dao.ScoreDao;
 import java100.app.domain.Score;
 import java100.app.util.DataSource;
 
-public class ScoreDaoImpl implements ScoreDao{
+// 기존에 있던 ScoreDao 클래스에서 컨트롤러가 호출하는 기본 메서드 
+// 호출 규칙을 별도의 인터페이스로 분리하고,
+// 이 클래스는 그 인터페이스를 구현한 클래스로 전환한다.
+//
+public class ScoreDaoImpl implements ScoreDao {
     
-    // 주입 받은 DataSource 객체를 저장할 인스턴스 변수 준비
+    // 주입 받은 DataSource 객체를 저장할 인스턴스 변수를 준비한다.
     DataSource ds;
     
-    // 외부에서 DataSource 객체를 주입할 수 있도록 셋터 준비
+    // 외부에서 DataSource 객체를 주입할 수 있도록 셋터를 준비한다.
     public void setDataSource(DataSource ds) {
         this.ds = ds;
     }
     
+    // DataSource를 주입 받았다 가정하고 다음 아래의 메서드들을 변경한다.
+    // => 이렇게하면 DataSource를 얻기 위해 ApplicationContext를 사용한
+    //    코드를 제거해도 된다. 
+    // => 즉 더이상 ApplicationContext에 종속되지 않는다.
+    //
     public List<Score> selectList() {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        
         
         try {
             con = ds.getConnection();
@@ -103,7 +111,7 @@ public class ScoreDaoImpl implements ScoreDao{
             throw new DaoException(e);
         } finally {
             try {pstmt.close();} catch (Exception e) {}
-           ds.returnConnection(con);
+            ds.returnConnection(con);
         }
     }
     

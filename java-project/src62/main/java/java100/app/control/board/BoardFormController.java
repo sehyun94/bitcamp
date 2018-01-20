@@ -10,11 +10,18 @@ import java100.app.control.PageController;
 @Component("/board/form")
 public class BoardFormController implements PageController {
     
-    
-    @Override
-    public String service (HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+    public String service(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         return "/board/form.jsp";
         
     }
 }
+
+
+
+
+
+
+
+

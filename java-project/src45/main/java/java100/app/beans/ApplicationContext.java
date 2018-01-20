@@ -106,9 +106,9 @@ public class ApplicationContext {
             // 셋터를 호출하여 그 객체를 주입한다.
             try {
                 m.invoke(obj, dependency);
-                System.out.printf("%s.%s() 호출됨!\n",
-                        obj.getClass().getName(),
-                        m.getName());
+                //System.out.printf("%s.%s() 호출됨!\n",
+                //        obj.getClass().getName(),
+                //        m.getName());
                 
             } catch (Exception e) {
                 throw new BeansException(

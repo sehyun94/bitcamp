@@ -14,19 +14,26 @@ import java100.app.domain.Board;
 public class BoardAddController {
     
     @Autowired BoardDao boardDao;
-
+    
     @RequestMapping
-    public String add (HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String add(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         
         Board board = new Board();
         board.setTitle(request.getParameter("title"));
         board.setContent(request.getParameter("content"));
-
-       
+        
         boardDao.insert(board);
         
         return "redirect:list.do";
-     
-        
     }
 }
+
+
+
+
+
+
+
+

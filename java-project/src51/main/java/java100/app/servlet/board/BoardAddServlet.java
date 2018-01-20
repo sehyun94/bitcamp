@@ -14,33 +14,35 @@ import java100.app.domain.Board;
 import java100.app.listener.ContextLoaderListener;
 
 @SuppressWarnings("serial")
-@WebServlet("/board/add")// 이클래스의 객체를 자동 생성해야함을 표시
-public class BoardAddServlet extends  HttpServlet {
-
+@WebServlet("/board/add")
+public class BoardAddServlet extends HttpServlet {
+    
     @Override
-    public void service(HttpServletRequest request,HttpServletResponse response)
+    public void service(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-
-        BoardDao boardDao = ContextLoaderListener.iocContainer.getBean(BoardDao.class);
+        
+        BoardDao boardDao = ContextLoaderListener.iocContainer.getBean(
+                BoardDao.class);
+        
         response.setContentType("text/plain;charset=UTF-8");
+        
         PrintWriter out = response.getWriter();
-
         out.println("[게시물 등록]");
-
+        
         try {
             Board board = new Board();
             board.setTitle(request.getParameter("title"));
             board.setContent(request.getParameter("content"));
-
+            
             boardDao.insert(board);
             out.println("저장하였습니다.");
-
+            
         } catch (Exception e) {
             e.printStackTrace(); // for developer
             out.println(e.getMessage()); // for user
         }
     } 
-
+    
 }
 
 

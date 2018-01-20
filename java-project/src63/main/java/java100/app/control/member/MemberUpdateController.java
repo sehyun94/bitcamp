@@ -14,20 +14,28 @@ import java100.app.domain.Member;
 public class MemberUpdateController {
     
     @Autowired MemberDao memberDao;
- 
+    
     @RequestMapping
-    public String update (HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String update(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         
-        Member member = new Member(); 
+        Member member = new Member();
         member.setNo(Integer.parseInt(request.getParameter("no")));
         member.setName(request.getParameter("name"));
         member.setEmail(request.getParameter("email"));
         member.setPassword(request.getParameter("password"));
-       
+        
         memberDao.update(member);
         
         return "redirect:list.do";
-       
-        
     }
 }
+
+
+
+
+
+
+
+

@@ -14,25 +14,24 @@ import java100.app.domain.Board;
 import java100.app.listener.ContextLoaderListener;
 
 @SuppressWarnings("serial")
-@WebServlet(urlPatterns="/board/view")// 이클래스의 객체를 자동 생성해야함을 표시
+@WebServlet("/board/view")
 public class BoardViewServlet extends HttpServlet {
 
-
-
-
-
-    public void service(HttpServletRequest request,HttpServletResponse response)
+    public void service(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
 
-        BoardDao boardDao = ContextLoaderListener.iocContainer.getBean(BoardDao.class);  
+        BoardDao boardDao = ContextLoaderListener.iocContainer.getBean(
+                BoardDao.class);
+        
         response.setContentType("text/plain;charset=UTF-8");
+        
         PrintWriter out = response.getWriter();
         out.println("[게시물 상세 정보]");
-
+        
         try {
             int no = Integer.parseInt(request.getParameter("no"));
             Board board = boardDao.selectOne(no);
-
+            
             if (board != null) {
                 out.printf("번호: %d\n", board.getNo());
                 out.printf("제목: %s\n", board.getTitle());
@@ -40,18 +39,16 @@ public class BoardViewServlet extends HttpServlet {
                 out.printf("등록일: %s\n", board.getRegDate());
                 out.printf("조회수: %d\n", board.getViewCount());
             } else {
-                out.printf("'%s'번의 게시물 정보가 없습니다.\n", no);
+                out.printf("'%d'번의 게시물 정보가 없습니다.\n", no);
             }
-
+            
         } catch (Exception e) {
             e.printStackTrace(); // for developer
             out.println(e.getMessage()); // for user
         }
     } 
 
-
 }
-
 
 
 

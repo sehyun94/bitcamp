@@ -1,10 +1,8 @@
-<%@page import="java100.app.domain.Score"%>
 <%@ page language="java" 
     contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true"%>
-
-<%@ taglib  uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,13 +26,14 @@
 </tr>
 </thead>
 <tbody>
+
 <c:forEach items="${list}" var="score">
-        <tr> 
+    <tr>
         <td>${score.no}</td>
         <td><a href='view?no=${score.no}'>${score.name}</a></td>
         <td>${score.sum}</td>
         <td>${score.aver}</td>
-        </tr>
+    </tr>
 </c:forEach>
 
 </tbody>
@@ -43,7 +42,19 @@
 <jsp:include page="/footer.jsp"/>
 
 </div>
-<%@ include file="../jslib.txt" %>
+
+<%@ include file="../jslib.txt"%>
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+

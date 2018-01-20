@@ -11,16 +11,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import java100.app.dao.MemberDao;
 import java100.app.listener.ContextLoaderListener;
+
 @SuppressWarnings("serial")
-@WebServlet(urlPatterns="/member/delete") // 이클래스의 객체를 자동 생성해야함을 표시
+@WebServlet("/member/delete")
 public class MemberDeleteServlet extends HttpServlet {
     
-    
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
-                throws ServletException, IOException {
-
-        MemberDao memberDao = ContextLoaderListener.iocContainer.getBean(MemberDao.class);
+    public void doGet(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        
+        MemberDao memberDao = ContextLoaderListener.iocContainer.getBean(
+                MemberDao.class);
+        
         response.setContentType("text/html;charset=UTF-8");
         
         PrintWriter out = response.getWriter();
@@ -31,14 +32,13 @@ public class MemberDeleteServlet extends HttpServlet {
         out.println("<link rel='stylesheet' href='../node_modules/bootstrap/dist/css/bootstrap.min.css'>");
         out.println("<style>");
         out.println(".container {");
-        out.println("width: 680px;");
+        out.println("    width: 680px;");
         out.println("}");
-
         out.println("</style>");
         out.println("</head>");
         out.println("<body>");
         out.println("<div class='container'>");
-        out.println("<h1>[회원 삭제]</h1>");
+        out.println("<h1>회원 삭제 결과</h1>");
         
         try {
             
@@ -54,9 +54,7 @@ public class MemberDeleteServlet extends HttpServlet {
             e.printStackTrace(); // for developer
             out.println(e.getMessage()); // for user
         }
-        
         out.println("<p><a href='list' class='btn btn-primary btn-sm'>목록</a></p>");
-
         out.println("</div>");
         out.println("</body>");
         out.println("</html>");

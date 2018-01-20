@@ -1,12 +1,8 @@
 <%@page import="java100.app.domain.Room"%>
-<%@page import="java.util.List"%>
 <%@ page language="java" 
     contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true"%>
-<%
-
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,10 +12,12 @@
 </head>
 <body>
 <div class='container'>
+
 <jsp:include page="/header.jsp"/>
+
 <h1>강의실 목록</h1>
 
-<p><a href='form.jsp' class='btn btn-primary btn-sm'>추가</a></p>
+<p><a href='form' class='btn btn-primary btn-sm'>추가</a></p>
 
 <table class='table table-hover'>
 <thead>
@@ -28,11 +26,9 @@
 </tr>
 </thead>
 <tbody>
-<jsp:useBean id="list" type="java.util.List<Room>" scope="request"></jsp:useBean>
+<jsp:useBean id="list" type="java.util.List<java100.app.domain.Room>" scope="request"></jsp:useBean>
 <%
 try {
-   
-    
     for (Room room : list) {
         pageContext.setAttribute("room", room);
     %>
@@ -53,11 +49,12 @@ try {
 } %>
 </tbody>
 </table>
+
 <jsp:include page="/footer.jsp"/>
+
 </div>
 
-
-<%@ include file="../jslib.txt" %>
+<%@ include file="../jslib.txt"%>
 
 </body>
 </html>

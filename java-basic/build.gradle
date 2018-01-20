@@ -34,6 +34,9 @@ repositories {
     jcenter()
 }
 dependencies {
+    // Spring Aop 라이브러리
+    compile group: 'org.aspectj', name: 'aspectjweaver', version: '1.8.13'
+    
     // MYSQL DMBS의 JDBC Driver
     compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.44'
 

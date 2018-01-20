@@ -13,33 +13,33 @@ import java100.app.dao.BoardDao;
 import java100.app.listener.ContextLoaderListener;
 
 @SuppressWarnings("serial")
-@WebServlet(urlPatterns="/board/delete")// 이클래스의 객체를 자동 생성해야함을 표시
+@WebServlet("/board/delete")
 public class BoardDeleteServlet extends HttpServlet {
-
-
+    
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
+    public void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
 
-        BoardDao boardDao = ContextLoaderListener.iocContainer.getBean(BoardDao.class);
+        BoardDao boardDao = ContextLoaderListener.iocContainer.getBean(
+                BoardDao.class);
+        
         response.setContentType("text/html;charset=UTF-8");
+        
         PrintWriter out = response.getWriter();
         out.println("<!DOCTYPE html>");
         out.println("<html>");
         out.println("<head>");
-        out.println("<title>게시판관리</title>");
-        
+        out.println("<title>게시판</title>");
         out.println("<link rel='stylesheet' href='../node_modules/bootstrap/dist/css/bootstrap.min.css'>");
         out.println("<style>");
         out.println(".container {");
-        out.println("width: 680px;");
+        out.println("    width: 680px;");
         out.println("}");
         out.println("</style>");
-        
         out.println("</head>");
         out.println("<body>");
         out.println("<div class='container'>");
-        out.println("<h1>[게시물 삭제]</h1>");
+        out.println("<h1>게시물 삭제 결과</h1>");
         
         try {
             
@@ -48,16 +48,14 @@ public class BoardDeleteServlet extends HttpServlet {
             if (boardDao.delete(no) > 0) {
                 out.println("<p>삭제했습니다.</p>");
             } else {
-                out.printf("<p>'%s'번의 게시물 정보가 없습니다.</p>\n", no); 
+                out.printf("<p>'%d'번의 게시물 정보가 없습니다.</p>\n", no); 
             }
             
         } catch (Exception e) {
             e.printStackTrace(); // for developer
             out.println(e.getMessage()); // for user
         }
-        
-        out.println("<p><a href='list' class='btn btn-primary btn-sm' >목록</a></p>");
-
+        out.println("<p><a href='list' class='btn btn-primary btn-sm'>목록</a></p>");
         out.println("</div>");
         out.println("</body>");
         out.println("</html>");

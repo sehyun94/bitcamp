@@ -10,19 +10,24 @@ import java100.app.control.PageController;
 import java100.app.dao.MemberDao;
 
 @Component("/member/delete")
-public class MemberDeleteController implements PageController{
+public class MemberDeleteController implements PageController {
     
     @Autowired MemberDao memberDao;
     
-    @Override
-    public String service (HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+    public String service(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         int no = Integer.parseInt(request.getParameter("no"));
         memberDao.delete(no);
         
         return "redirect:list.do";
-        
-        
-        
     }
 }
+
+
+
+
+
+
+
+

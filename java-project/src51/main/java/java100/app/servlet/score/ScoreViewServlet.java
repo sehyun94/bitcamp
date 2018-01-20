@@ -14,16 +14,17 @@ import java100.app.domain.Score;
 import java100.app.listener.ContextLoaderListener;
 
 @SuppressWarnings("serial")
-@WebServlet(urlPatterns="/score/view")
+@WebServlet(urlPatterns="/score/view")   
 public class ScoreViewServlet extends HttpServlet {
     
-    
-    @Override
-    public void service(HttpServletRequest request, HttpServletResponse response)
-                throws ServletException, IOException {
-      
-        ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(ScoreDao.class);
+    public void service(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        
+        ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(
+                ScoreDao.class);
+        
         response.setContentType("text/plain;charset=UTF-8");
+        
         PrintWriter out = response.getWriter();
         out.println("[성적 상세 정보]");
         
@@ -48,8 +49,6 @@ public class ScoreViewServlet extends HttpServlet {
             out.println(e.getMessage()); // for user
         }
     }
-
-    
 }
 
 

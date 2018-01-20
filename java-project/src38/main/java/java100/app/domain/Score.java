@@ -1,7 +1,3 @@
-//: ## 캡슐화 적용
-//: - 모든 필드에 대해 외부 접근을 차단한다.
-//:   단 자식 클래스에서는 직접 접근할 수 있게 허락한다.
-//: 
 package java100.app.domain;
 
 public class Score {  
@@ -14,8 +10,6 @@ public class Score {
     protected int sum;
     protected float aver;
 
-    //: ### 생성자
-    //: > 다른 패키지에서도 호출할 수 있도록 public으로 공개한다.
     public Score() {}
     
     public Score(int no, String name, int kor, int eng, int math) {
@@ -27,7 +21,7 @@ public class Score {
         
         this.compute();
     }
-   
+    
     @Override
     public String toString() {
         return "Score [no=" + no + ", name=" + name + ", kor=" + kor + ", eng=" + eng + ", math=" + math + ", sum="

@@ -10,11 +10,19 @@ import java100.app.annotation.RequestMapping;
 @Component("/board/form")
 public class BoardFormController {
     
-    
     @RequestMapping
-    public String form (HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+    public String form(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         return "/board/form.jsp";
         
     }
 }
+
+
+
+
+
+
+
+

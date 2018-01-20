@@ -13,14 +13,22 @@ import java100.app.dao.ScoreDao;
 public class ScoreDeleteController implements PageController {
     
     @Autowired ScoreDao scoreDao;
-    @Override
-    public String service(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    
+    public String service(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         
         int no = Integer.parseInt(request.getParameter("no"));
         scoreDao.delete(no);
-       
-        return "redirect:list.do";
         
-       
+        return "redirect:list.do";
     }
 }
+
+
+
+
+
+
+
+

@@ -1,7 +1,5 @@
 package java100.app.domain;
 
-import java100.app.control.CSVFormatException;
-
 public class Room {
     protected int no;
     protected String location;
@@ -16,10 +14,18 @@ public class Room {
         this.name = name;
         this.capacity = capacity;
     }
-
+    
     @Override
     public String toString() {
         return "Room [no=" + no + ", location=" + location + ", name=" + name + ", capacity=" + capacity + "]";
+    }
+
+    public int getNo() {
+        return no;
+    }
+
+    public void setNo(int no) {
+        this.no = no;
     }
 
     public String getLocation() {

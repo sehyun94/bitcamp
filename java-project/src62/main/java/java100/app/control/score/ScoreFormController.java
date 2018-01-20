@@ -10,12 +10,17 @@ import java100.app.control.PageController;
 @Component("/score/form")
 public class ScoreFormController implements PageController {
     
-    
-    @Override
-    public String service(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
-        // 프론트 컨트롤러가 실행할 JSP URL을 등록
+    public String service(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         return "/score/form.jsp";
-        
     }
 }
+
+
+
+
+
+
+
+

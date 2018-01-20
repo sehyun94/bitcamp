@@ -15,26 +15,27 @@ import java100.app.domain.Score;
 import java100.app.listener.ContextLoaderListener;
 
 @SuppressWarnings("serial")
-@WebServlet(urlPatterns="/score/list")
+@WebServlet(urlPatterns="/score/list")   
 public class ScoreListServlet extends HttpServlet {
-
-
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
+    
+    public void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(ScoreDao.class);
-        response.setContentType("text/html;charset=UTF-8");      
-        PrintWriter out = response.getWriter();
         
+        ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(
+                ScoreDao.class);
+        
+        response.setContentType("text/html;charset=UTF-8");
+        
+        PrintWriter out = response.getWriter();
         out.println("<!DOCTYPE html>");
         out.println("<html>");
         out.println("<head>");
         out.println("<title>성적관리</title>");
         out.println("</head>");
         out.println("<body>");
-        out.println("<h1>[성적 목록]</h1>");
-        
-        out.println("<p><a href='add'><button>학생 추가하기</button></a></p>");
+        out.println("<h1>성적 목록</h1>");
+
+        out.println("<p><a href='add'>추가</a></p>");
         
         out.println("<table>");
         out.println("<thead>");
@@ -44,11 +45,9 @@ public class ScoreListServlet extends HttpServlet {
         out.println("</thead>");
         out.println("<tbody>");
         
-        
-        
         try {
             List<Score> list = scoreDao.selectList();
-
+            
             for (Score score : list) {
                 out.printf("<tr><td>%d</td><td>"
                         + "<a href='view?no=%d'>%s</a>"
@@ -59,7 +58,7 @@ public class ScoreListServlet extends HttpServlet {
                         score.getSum(), 
                         score.getAver());
             }
-
+            
         } catch (Exception e) {
             e.printStackTrace(); // for developer
             out.println(e.getMessage()); // for user
@@ -70,7 +69,6 @@ public class ScoreListServlet extends HttpServlet {
         out.println("</body>");
         out.println("</html>");
     }
-
 }
 
 

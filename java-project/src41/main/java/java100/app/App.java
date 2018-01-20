@@ -1,16 +1,10 @@
-//: ## ver 36
-//: - 버전 35는 한 번 클라이언트와 연결되면 
-//    클라이언트와 연결이 끊어질 때까지 계속 요청과 응답을 수행한다. 
-//    문제는 클라이언트 사용자가 아무런 일을 시키지 않아도 
-//    계속 연결된 채로 있다는 것이다. 즉 메모리 낭비가 이루어진다.
-//: - 버전 35의 문제점을 해결하기 위해 요청할 때마다 연결을 한 후 
-//    응답을 하면 연결을 끊는 방식으로 전환한다. 
-//    단점, 요청할 때마다 연결해야 하기 때문에 요청/응답 시간이 늘어난다. 
-//    장점, 클라이언트와 일시적으로 연결되기 때문에 
-//    더 많은 클라이언트의 요청을 처리할 수 있다.
+//: ## ver 41
+//: - DataSource의 멤버를 스태틱에서 인스턴스로 전환하여 여러 DBMS의 커넥션을 
+//:   다룰 수 있도록 하라!
 //: - 학습목표
-//:   - Stateful 과 Stateless 방식의 차이점을 이해하고 구현할 수 있다.
-//: 
+//:   - 스태틱 멤버의 한계와 인스턴스 멤버의 사용이유를 이해한다.
+//:   - 인스턴스를 어디서 생성하고 관리해야 하는지 이해한다.
+//:   
 package java100.app;
 
 import java.io.BufferedOutputStream;
@@ -32,44 +26,54 @@ import java100.app.control.RoomController;
 import java100.app.control.ScoreController;
 import java100.app.util.DataSource;
 
+// 기존 방식의 문제점
+// - DataSource의 멤버가 스태틱이라서 오직 한 DBMS의 커넥션만 관리할 수 있다.
+//
+// 해결 방안
+// - 커넥션 객체를 보관할 List를 인스턴스 멤버로 만든다.
+// - DBMS 연결정보(url, id, password)를 외부에서 입력 받아 관리한다.
+// - 변경 코드
+//   1) DataSource.java 변경
+//      - 다양한 DBMS에서도 사용할 수 있게 변경한다.
+//   2) App.java 변경 
+//      - DataSource를 객체를 이 클래스에서 생성하고 관리한다.
+//      - 기존에 Controller만 보관하던 맵을 변경하여 
+//        다양한 타입의 객체도 담을 수 있도록 한다. 
+// 
 public class App {
 
     ServerSocket ss;
     Scanner keyScan = new Scanner(System.in);
 
-    // 이제 HashMap에 보관하는 값은 Controller 구현체 뿐만 아니라 기타 여러 타입 객체도 
-    // 담을수 있다
+    // 이제 HashMap은 Controller 구현체 뿐만 아니라 기타 여러 타입의 객체도
+    // 담을 수 있다.
     static HashMap<String,Object> beanContainer = 
             new HashMap<>();
-    
+
     public static Object getBean(String name) {
         Object bean = beanContainer.get(name);
-        if( bean ==null) 
-            throw new BeansException ("빈을 찾을 수 없습니다");
-           
+        if (bean == null)
+            throw new BeansException("빈을 찾을 수 없습니다.");
         return bean;
-                
     }
     
     void init() {
-        
         ScoreController scoreController = new ScoreController();
-        scoreController.init(); 
+        scoreController.init();
         beanContainer.put("/score", scoreController);
         
         MemberController memberController = new MemberController();
         memberController.init();
         beanContainer.put("/member", memberController);
         
-        
         BoardController boardController = new BoardController();
         boardController.init();
         beanContainer.put("/board", boardController);
-       
+        
         RoomController roomController = new RoomController();
         roomController.init();
         beanContainer.put("/room", roomController); 
-        
+
         DataSource ds = new DataSource();
         ds.setDriverClassName("com.mysql.jdbc.Driver");
         ds.setUrl("jdbc:mysql://localhost:3306/studydb");
@@ -77,9 +81,6 @@ public class App {
         ds.setPassword("1111");
         
         beanContainer.put("mysqlDataSource", ds);
-        
-        
-        
     }
 
     void service() throws Exception {
@@ -92,9 +93,6 @@ public class App {
             new HttpAgent(ss.accept()).start();
         }
     }
-
-   
-
 
     private void request(String command, PrintWriter out) {
 
@@ -142,14 +140,12 @@ public class App {
         app.service();
     }
     
-   
     class HttpAgent extends Thread {
         Socket socket;
         
         public HttpAgent(Socket socket) {
             this.socket = socket;
         }
-   
         
         @Override
         public void run() {
@@ -160,9 +156,12 @@ public class App {
                     PrintWriter out = new PrintWriter(
                             new BufferedOutputStream(socket.getOutputStream()));
                     ) {
-               
+                // HTTP 요청 읽기
+                // => request-line 읽기
+                // 예) GET /score/list HTTP/1.1 (CRLF)
                 String command = in.readLine().split(" ")[1];
 
+                // => header 읽기
                 String header = null;
                 while (true) {
                     header = in.readLine();
@@ -178,16 +177,16 @@ public class App {
                 // => 콘텐츠의 MIME 타입과 인코딩 문자집합에 대한 정보를 출력한다. 
                 out.println("Content-Type:text/plain;charset=UTF-8");
                 
+                // => 헤더의 끝임을 표시하기 위해 빈 줄을 출력한다.
+                out.println();
                 
-                out.println(); // 응답을 완료를 표시하기 위해 빈줄 보냄.
-                
+                // 명령어에 따라 처리를 분기하여 콘텐츠를 출력한다.
                 if (command.equals("/")) {
                     hello(command, out);
                 } else {
                     request(command, out);
-                 }
-                
-                out.println();
+                }
+                out.println(); // 응답을 완료를 표시하기 위해 빈줄 보냄.
                 out.flush();
                 
             } catch (Exception e) {

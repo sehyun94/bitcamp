@@ -15,35 +15,33 @@ import java100.app.domain.Score;
 import java100.app.listener.ContextLoaderListener;
 
 @SuppressWarnings("serial")
-@WebServlet(urlPatterns="/score/list")
+@WebServlet(urlPatterns="/score/list")   
 public class ScoreListServlet extends HttpServlet {
-
-
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
+    
+    public void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(ScoreDao.class);
-        response.setContentType("text/html;charset=UTF-8");      
-        PrintWriter out = response.getWriter();
         
+        ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(
+                ScoreDao.class);
+        
+        response.setContentType("text/html;charset=UTF-8");
+        
+        PrintWriter out = response.getWriter();
         out.println("<!DOCTYPE html>");
         out.println("<html>");
         out.println("<head>");
         out.println("<title>성적관리</title>");
-        
         out.println("<link rel='stylesheet' href='../node_modules/bootstrap/dist/css/bootstrap.min.css'>");
         out.println("<style>");
         out.println(".container {");
-        out.println("width: 680px;");
+        out.println("    width: 680px;");
         out.println("}");
-        
         out.println("</style>");
         out.println("</head>");
         out.println("<body>");
         out.println("<div class='container'>");
-        
-        out.println("<h1>[성적 목록]</h1>");
-        
+        out.println("<h1>성적 목록</h1>");
+
         out.println("<p><a href='add' class='btn btn-primary btn-sm'>추가</a></p>");
         
         out.println("<table class='table table-hover'>");
@@ -54,11 +52,9 @@ public class ScoreListServlet extends HttpServlet {
         out.println("</thead>");
         out.println("<tbody>");
         
-        
-        
         try {
             List<Score> list = scoreDao.selectList();
-
+            
             for (Score score : list) {
                 out.printf("<tr><td>%d</td><td>"
                         + "<a href='view?no=%d'>%s</a>"
@@ -69,7 +65,7 @@ public class ScoreListServlet extends HttpServlet {
                         score.getSum(), 
                         score.getAver());
             }
-
+            
         } catch (Exception e) {
             e.printStackTrace(); // for developer
             out.println(e.getMessage()); // for user
@@ -81,7 +77,6 @@ public class ScoreListServlet extends HttpServlet {
         out.println("</body>");
         out.println("</html>");
     }
-
 }
 
 

@@ -19,7 +19,7 @@ public class RoomDao {
         ResultSet rs = null;
         
         try {
-            ds = (DataSource)ApplicationContext.getBean("mysqlDataSource");
+            ds = (DataSource) ApplicationContext.getBean("mysqlDataSource"); 
             con = ds.getConnection();
             pstmt = con.prepareStatement(
                     "select no,loc,name,capacity from ex_room");
@@ -54,9 +54,8 @@ public class RoomDao {
         PreparedStatement pstmt = null;
         
         try {
-            ds = (DataSource)ApplicationContext.getBean("mysqlDataSource");
+            ds = (DataSource) ApplicationContext.getBean("mysqlDataSource"); 
             con = ds.getConnection();
-           
             pstmt = con.prepareStatement(
                     "insert into ex_room(loc,name,capacity) values(?,?,?)");
             pstmt.setString(1, room.getLocation());
@@ -79,7 +78,7 @@ public class RoomDao {
         PreparedStatement pstmt = null;
         
         try {
-            ds = (DataSource)ApplicationContext.getBean("mysqlDataSource");
+            ds = (DataSource) ApplicationContext.getBean("mysqlDataSource"); 
             con = ds.getConnection();
             pstmt = con.prepareStatement(
                     "delete from ex_room where no=?");

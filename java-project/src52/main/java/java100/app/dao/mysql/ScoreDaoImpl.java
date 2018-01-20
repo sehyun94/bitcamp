@@ -14,17 +14,12 @@ import java100.app.dao.ScoreDao;
 import java100.app.domain.Score;
 import java100.app.util.DataSource;
 
-// 기존에 있던 ScoreDao 클래스에서 컨트롤러가 호출하는 기본 메서드 
-// 호출 규칙을 별도의 인터페이스로 분리하고,
-// 이 클래스는 그 인터페이스를 구현한 클래스로 전환한다.
-//
-@Component // 이클래스의 객체를 자동 생성해야함을 표시
+@Component  // 이 클래스의 객체를 자동 생성해야 함을 표시!
 public class ScoreDaoImpl implements ScoreDao {
     
-    // 주입 받은 DataSource 객체를 저장할 인스턴스 변수를 준비한다.
+    // 스프링 IoC 컨테이너가 DataSource 객체를 주입하도록 표시!
     @Autowired
     DataSource ds;
-    
     
     // DataSource를 주입 받았다 가정하고 다음 아래의 메서드들을 변경한다.
     // => 이렇게하면 DataSource를 얻기 위해 ApplicationContext를 사용한

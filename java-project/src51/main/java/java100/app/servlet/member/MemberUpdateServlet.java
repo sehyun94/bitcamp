@@ -13,19 +13,18 @@ import java100.app.dao.MemberDao;
 import java100.app.domain.Member;
 import java100.app.listener.ContextLoaderListener;
 
-
 @SuppressWarnings("serial")
-@WebServlet(urlPatterns="/member/update") // 이클래스의 객체를 자동 생성해야함을 표시
+@WebServlet("/member/update")
 public class MemberUpdateServlet extends HttpServlet {
     
-   
-    @Override
-    public void service(HttpServletRequest request, HttpServletResponse response)
-                throws ServletException, IOException {
+    public void service(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
         
-        MemberDao memberDao = ContextLoaderListener.iocContainer.getBean(MemberDao.class);
-        response.setContentType("text/palin;charset=UTF-8");
-
+        MemberDao memberDao = ContextLoaderListener.iocContainer.getBean(
+                MemberDao.class);
+        
+        response.setContentType("text/plain;charset=UTF-8");
+        
         PrintWriter out = response.getWriter();
         out.println("[회원 변경]");
         
@@ -48,8 +47,12 @@ public class MemberUpdateServlet extends HttpServlet {
         }
     }
 }
-    
-    
+
+
+
+
+
+
 
 
 

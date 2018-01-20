@@ -14,17 +14,22 @@ import java100.app.domain.Member;
 public class MemberUpdateController {
     
     @Autowired MemberDao memberDao;
-
+    
     @RequestMapping
-    public String update (
+    public String update(
             Member member,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         
-       
         memberDao.update(member);
-        
         return "redirect:list.do";
-       
-        
     }
 }
+
+
+
+
+
+
+
+

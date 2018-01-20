@@ -13,16 +13,18 @@ import java100.app.dao.BoardDao;
 import java100.app.listener.ContextLoaderListener;
 
 @SuppressWarnings("serial")
-@WebServlet(urlPatterns="/board/delete")// 이클래스의 객체를 자동 생성해야함을 표시
+@WebServlet("/board/delete")
 public class BoardDeleteServlet extends HttpServlet {
-
-
+    
     @Override
-    public void service(HttpServletRequest request, HttpServletResponse response)
+    public void service(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
 
-        BoardDao boardDao = ContextLoaderListener.iocContainer.getBean(BoardDao.class);
+        BoardDao boardDao = ContextLoaderListener.iocContainer.getBean(
+                BoardDao.class);
+        
         response.setContentType("text/plain;charset=UTF-8");
+        
         PrintWriter out = response.getWriter();
         out.println("[게시물 삭제]");
         
@@ -33,7 +35,7 @@ public class BoardDeleteServlet extends HttpServlet {
             if (boardDao.delete(no) > 0) {
                 out.println("삭제했습니다.");
             } else {
-                out.printf("'%s'번의 게시물 정보가 없습니다.\n", no); 
+                out.printf("'%d'번의 게시물 정보가 없습니다.\n", no); 
             }
             
         } catch (Exception e) {

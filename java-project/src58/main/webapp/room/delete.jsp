@@ -11,36 +11,33 @@
 </head>
 <body>
 <div class='container'>
+
 <jsp:include page="/header.jsp"/>
-<h1>[강의실 삭제]</h1>
+
+<h1>강의실 삭제 결과</h1>
 <jsp:useBean id="count" type="java.lang.Integer" scope="request"></jsp:useBean>
 <%
-    try {
-        
-        
-        if (count > 0) { %>
-        
-            <p>삭제했습니다.</p>
-            
-        <%  } else { %>
-            "'${param.no}'의 강의실 정보가 없습니다. 
-        <% } 
-        
-    } catch (Exception e) {
-        e.printStackTrace(); %>
-        out.println(e.getMessage()); // for user
+try {
+    if (count > 0) {%>
+        <p>삭제했습니다.</p>
+<%        
+    } else {%>
+        <p>'${param.no}'의 강의실 정보가 없습니다.</p>
+<%         
     }
 } catch (Exception e) {
     e.printStackTrace(); // for developer%>
-    <%=e.getMessage()%>
-<%   } %>
+    <%=e.getMessage() %>
+<%    
+} %>
+<p><a href='list' class='btn btn-primary btn-sm'>목록</a></p>
 
-    <p><a href='list' class='btn btn-primary btn-sm'>목록</a></p>
 <jsp:include page="/footer.jsp"/>
+
 </div>
 
-
-<%@ include file="../jslib.txt" %>
+<%@ include file="../jslib.txt"%>
 
 </body>
 </html>
+    

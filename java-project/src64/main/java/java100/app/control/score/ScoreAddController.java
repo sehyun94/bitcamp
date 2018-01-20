@@ -11,19 +11,25 @@ import java100.app.dao.ScoreDao;
 import java100.app.domain.Score;
 
 @Component("/score/add")
-public class ScoreAddController  {
+public class ScoreAddController {
     
     @Autowired ScoreDao scoreDao;
-
+    
     @RequestMapping
-    public String add (
+    public String add(
             Score score,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         
         scoreDao.insert(score);
         return "redirect:list.do";
-        
-        
     }
 }
+
+
+
+
+
+
+
+

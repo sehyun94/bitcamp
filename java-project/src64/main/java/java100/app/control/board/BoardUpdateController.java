@@ -16,15 +16,20 @@ public class BoardUpdateController {
     @Autowired BoardDao boardDao;
     
     @RequestMapping
-    public String update (
+    public String update(
             Board board,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         
         boardDao.update(board);
-        
         return "redirect:list.do";
-        
-    
     }
 }
+
+
+
+
+
+
+
+

@@ -1,27 +1,30 @@
 package java100.app;
 
-import org.springframework.context.annotation.Bean;
+import java.lang.reflect.Method;
+import java.util.List;
+
+import org.reflections.ReflectionUtils;
 
 public class Test {
 
-    @Bean
-    static void sum(int...values) {
-        int sum = 0;
-        for (int v : values) {
-            sum += v;
-        }
-        System.out.println(sum);
-    }
-
-    public static void main(String[] args) {
-
-        sum();
-        sum(10);
-        sum(10,20,30);
-        sum(new int[] {10, 20, 30, 40, 50});
+    static void m(int a, int b, int c) {
         
-
     }
-
+    
+    public static void main(String[] args) {
+        String name = "FirstName";
+        
+        String propName = String.format("%c%s", 
+                Character.toLowerCase(name.charAt(0)),
+                name.substring(1));
+        
+        System.out.println(propName);
+    }
 
 }
+
+
+
+
+
+

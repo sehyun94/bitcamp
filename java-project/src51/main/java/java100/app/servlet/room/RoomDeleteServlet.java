@@ -12,20 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 import java100.app.dao.RoomDao;
 import java100.app.listener.ContextLoaderListener;
 
-//urlPatterns 속성
-//- 클라이언트가 "/room/xxx" URL을 요청할 때 이 서블릿을 실행하라고 표시한다.
-//- /room/xxx 요청이 들어오면 서블릿 컨테이너는 이 서블릿 객체를 실행한다.
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns="/room/delete")
 public class RoomDeleteServlet extends HttpServlet {
     
-  
-    
-    @Override
     public void service(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-           
-        RoomDao roomDao = ContextLoaderListener.iocContainer.getBean(RoomDao.class);
+        
+        RoomDao roomDao = ContextLoaderListener.iocContainer.getBean(
+                RoomDao.class);
+        
         response.setContentType("text/plain;charset=UTF-8");
         
         PrintWriter out = response.getWriter();
@@ -46,6 +42,14 @@ public class RoomDeleteServlet extends HttpServlet {
             out.println(e.getMessage()); // for user
         }
     }
-    
 }
+
+
+
+
+
+
+
+
+
 

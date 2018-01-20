@@ -8,6 +8,7 @@ import java100.app.domain.Room;
 
 public class RoomController implements Controller {
     
+    // RoomDao를 이 클래스에서 준비하지 않고 외부에서 주입받을 것이다.    
     RoomDao roomDao;
     
     public void setRoomDao(RoomDao roomDao) {

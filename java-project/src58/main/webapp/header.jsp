@@ -1,18 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" 
+    contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true"%>
-
-<!DOCTYPE html>
-<html>
-<head>
-
-
-</head>
-<body>
 <header>
 <nav class='navbar navbar-expand-lg navbar-light bg-light'>
 <a class='navbar-brand' href='../index.html'>
-  <img src='../images/bit.svg' width='30' height='30' class='d-inline-block align-top' alt=''>
+  <img src='../images/bootstrap-solid.svg' width='30' height='30' class='d-inline-block align-top' alt=''>
   비트캠프
 </a>
 <button class='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation'>
@@ -36,5 +29,4 @@
 </div>
 </nav>
 </header>
-</body>
-</html>
+    

@@ -15,19 +15,25 @@ public class BoardViewController implements PageController {
     
     @Autowired BoardDao boardDao;
     
-    @Override
-    public String service (HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+    public String service(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+
         int no = Integer.parseInt(request.getParameter("no"));
         Board board = boardDao.selectOne(no);
-
         
-        // 작업한 결과를 JSP에 넘겨주기 위해 ServletRequest 보관소에 저장한다,
+        // 작업한 결과를 JSP에게 넘겨주기 위해 ServletRequest 보관소에 저장한다.
         request.setAttribute("board", board);
-        
-        response.setContentType("text/html;charset=UTF-8");
         
         return "/board/view.jsp";
         
     }
 }
+
+
+
+
+
+
+
+

@@ -16,39 +16,35 @@ import java100.app.domain.Score;
 import java100.app.listener.ContextLoaderListener;
 
 @SuppressWarnings("serial")
-@WebServlet(urlPatterns="/score/list")
+@WebServlet(urlPatterns="/score/list")   
 public class ScoreListServlet extends HttpServlet {
-
-  
     
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
+    public void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(ScoreDao.class);
-        response.setContentType("text/html;charset=UTF-8");      
+        
+        ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(
+                ScoreDao.class);
+        
+        response.setContentType("text/html;charset=UTF-8");
+        
         PrintWriter out = response.getWriter();
-
         out.println("<!DOCTYPE html>");
         out.println("<html>");
         out.println("<head>");
         out.println("<title>성적관리</title>");
-
         out.println("<link rel='stylesheet' href='../node_modules/bootstrap/dist/css/bootstrap.min.css'>");
         out.println("<link rel='stylesheet' href='../css/common.css'>");
-       
-        
         out.println("</head>");
         out.println("<body>");
         out.println("<div class='container'>");
-
         
         RequestDispatcher rd = request.getRequestDispatcher("/header");
         rd.include(request, response);
-
-        out.println("<h1>[성적 목록]</h1>");
+        
+        out.println("<h1>성적 목록</h1>");
 
         out.println("<p><a href='add' class='btn btn-primary btn-sm'>추가</a></p>");
-
+        
         out.println("<table class='table table-hover'>");
         out.println("<thead>");
         out.println("<tr>");
@@ -56,12 +52,10 @@ public class ScoreListServlet extends HttpServlet {
         out.println("</tr>");
         out.println("</thead>");
         out.println("<tbody>");
-
-
-
+        
         try {
             List<Score> list = scoreDao.selectList();
-
+            
             for (Score score : list) {
                 out.printf("<tr><td>%d</td><td>"
                         + "<a href='view?no=%d'>%s</a>"
@@ -72,12 +66,12 @@ public class ScoreListServlet extends HttpServlet {
                         score.getSum(), 
                         score.getAver());
             }
-
+            
         } catch (Exception e) {
             e.printStackTrace(); // for developer
             out.println(e.getMessage()); // for user
         }
-
+        
         out.println("</tbody>");
         out.println("</table>");
         
@@ -90,10 +84,10 @@ public class ScoreListServlet extends HttpServlet {
         out.println("<script src='../node_modules/popper.js/dist/umd/popper.min.js'></script>");
         out.println("<script src='../node_modules/bootstrap/dist/js/bootstrap.min.js'></script>");
         
+        
         out.println("</body>");
         out.println("</html>");
     }
-
 }
 
 

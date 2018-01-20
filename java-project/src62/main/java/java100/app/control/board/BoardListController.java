@@ -16,16 +16,25 @@ import java100.app.domain.Board;
 public class BoardListController implements PageController {
     
     @Autowired BoardDao boardDao;
-    @Override
-    public String service (HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
-        
+    
+    public String service(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+
         List<Board> list = boardDao.selectList();
         
-        // 작업한 결과를 JSP에 넘겨주기 위해 ServletRequest 보관소에 저장한다,
+        // 작업한 결과를 JSP에게 넘겨주기 위해 ServletRequest 보관소에 저장한다.
         request.setAttribute("list", list);
         
         return "/board/list.jsp";
         
     }
 }
+
+
+
+
+
+
+
+

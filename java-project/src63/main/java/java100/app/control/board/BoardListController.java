@@ -18,15 +18,24 @@ public class BoardListController {
     @Autowired BoardDao boardDao;
     
     @RequestMapping
-    public String list (HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
-        
+    public String list(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+
         List<Board> list = boardDao.selectList();
         
-        // 작업한 결과를 JSP에 넘겨주기 위해 ServletRequest 보관소에 저장한다,
+        // 작업한 결과를 JSP에게 넘겨주기 위해 ServletRequest 보관소에 저장한다.
         request.setAttribute("list", list);
         
         return "/board/list.jsp";
         
     }
 }
+
+
+
+
+
+
+
+

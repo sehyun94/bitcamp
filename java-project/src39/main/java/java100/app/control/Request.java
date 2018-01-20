@@ -20,9 +20,8 @@ public class Request {
             for (String param : arr) {
                 String[] kv = param.split("=");
                 try {
-                this.params.put(kv[0], URLDecoder.decode(kv[1], "UTF-8"));
+                    this.params.put(kv[0], URLDecoder.decode(kv[1], "UTF-8"));
                 } catch (Exception e) {}
-                
             }
         }
     }

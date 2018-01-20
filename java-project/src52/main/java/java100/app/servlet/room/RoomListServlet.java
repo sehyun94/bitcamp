@@ -14,21 +14,19 @@ import java100.app.dao.RoomDao;
 import java100.app.domain.Room;
 import java100.app.listener.ContextLoaderListener;
 
-//urlPatterns 속성
-//- 클라이언트가 "/room/xxx" URL을 요청할 때 이 서블릿을 실행하라고 표시한다.
-//- /room/xxx 요청이 들어오면 서블릿 컨테이너는 이 서블릿 객체를 실행한다.
 @SuppressWarnings("serial")
 @WebServlet(urlPatterns="/room/list")
 public class RoomListServlet extends HttpServlet {
-
-
-    @Override
+    
     public void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
+        
+        RoomDao roomDao = ContextLoaderListener.iocContainer.getBean(
+                RoomDao.class);
+        
 
-        RoomDao roomDao = ContextLoaderListener.iocContainer.getBean(RoomDao.class);
         response.setContentType("text/html;charset=UTF-8");
-
+        
         PrintWriter out = response.getWriter();
         out.println("<!DOCTYPE html>");
         out.println("<html>");
@@ -36,42 +34,49 @@ public class RoomListServlet extends HttpServlet {
         out.println("<title>강의실관리</title>");
         out.println("</head>");
         out.println("<body>");
-        out.println("<h1>[강의실 목록]</h1>");
+        out.println("<h1>강의실 목록</h1>");
+
+        out.println("<p><a href='add'>추가</a></p>");
         
-        out.println("<p><a href='add'><button>강의실추가</button></a></p>");
         out.println("<table>");
         out.println("<thead>");
         out.println("<tr>");
-        out.println("<th>번호</th><th>위치</th><th>이름</th><th>수용인원</th><th></th>");
+        out.println("<th>번호</th><th>지역</th><th>강의실명</th><th>수용인원</th><th>삭제</th>");
         out.println("</tr>");
         out.println("</thead>");
         out.println("<tbody>");
         
-
+        
         try {
             List<Room> list = roomDao.selectList();
-
+            
             for (Room room : list) {
-                out.printf("<tr><td>%d</td><td>%s</td><td>%s</td><td>%s</td>"
-                        + "<td><a href='delete?no=%d'><button>삭제</button></a></td></tr>\n",
+                out.printf("<tr><td>%d</td><td>%s</td><td>%s</td>"
+                        + "<td>%d</td><td><a href='delete?no=%d'>삭제</a></td></tr>\n",
                         room.getNo(),
                         room.getLocation(),
                         room.getName(),
                         room.getCapacity(),
                         room.getNo());
-                
             }
-
+            
         } catch (Exception e) {
             e.printStackTrace(); // for developer
             out.println(e.getMessage()); // for user
         }
-        
         out.println("</tbody>");
         out.println("</table>");
         out.println("</body>");
         out.println("</html>");
     }
-
 }
+
+
+
+
+
+
+
+
+
 

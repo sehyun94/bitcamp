@@ -1,16 +1,11 @@
-//: ## ver 36
-//: - 버전 35는 한 번 클라이언트와 연결되면 
-//    클라이언트와 연결이 끊어질 때까지 계속 요청과 응답을 수행한다. 
-//    문제는 클라이언트 사용자가 아무런 일을 시키지 않아도 
-//    계속 연결된 채로 있다는 것이다. 즉 메모리 낭비가 이루어진다.
-//: - 버전 35의 문제점을 해결하기 위해 요청할 때마다 연결을 한 후 
-//    응답을 하면 연결을 끊는 방식으로 전환한다. 
-//    단점, 요청할 때마다 연결해야 하기 때문에 요청/응답 시간이 늘어난다. 
-//    장점, 클라이언트와 일시적으로 연결되기 때문에 
-//    더 많은 클라이언트의 요청을 처리할 수 있다.
+//: ## ver 42
+//: - App 클래스에서 빈 관리 기능을 분리하여 향후 다른 프로젝트에서도 
+//:   사용할 수 있게 하라!
 //: - 학습목표
-//:   - Stateful 과 Stateless 방식의 차이점을 이해하고 구현할 수 있다.
+//:   - 코드의 재사용성을 높이기 위해 클래스로 분리하는 방법을 연습한다.
+//:   - 빈관리 기능을 수행하는 빈 컨테이너에 대해 이해한다.
 //: 
+//:   
 package java100.app;
 
 import java.io.BufferedOutputStream;
@@ -19,11 +14,9 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
 import java.util.Scanner;
 
 import java100.app.beans.ApplicationContext;
-import java100.app.beans.BeansException;
 import java100.app.control.BoardController;
 import java100.app.control.Controller;
 import java100.app.control.MemberController;
@@ -33,32 +26,44 @@ import java100.app.control.RoomController;
 import java100.app.control.ScoreController;
 import java100.app.util.DataSource;
 
+// 기존 방식의 문제점
+// - DAO 클래스가 프로젝트 마다 변경될 수 있는 App 클래스에 종속된다.
+// - 향후 다른 프로젝트를 만들 때 DAO 클래스를 재사용할 수 없다.
+//
+// 해결 방안
+// - App 클래스에 들어있는 빈 컨테이너 기능을 외부 클래스로 분리하여 
+//   라이브러리로 만든다.
+// - 라이브러리로 만들면 다른 프로젝트에서도 재사용할 수 있다.
+// - 변경 코드
+//   1) ApplicationContext 클래스 추가
+//      - App 클래스에 있던 빈 관리 코드를 가져온다.
+//   2) App.java 변경 
+//      - ApplicationContext를 사용하여 빈을 관리한다. 
+//   3) DAO 클래스 변경
+//      - ApplicationContext를 통해 DataSource를 꺼내도록 변경한다.
+//
 public class App {
 
     ServerSocket ss;
     Scanner keyScan = new Scanner(System.in);
     
-     
-    
     void init() {
-        
         ScoreController scoreController = new ScoreController();
-        scoreController.init(); 
+        scoreController.init();
         ApplicationContext.addBean("/score", scoreController);
         
         MemberController memberController = new MemberController();
         memberController.init();
         ApplicationContext.addBean("/member", memberController);
         
-        
         BoardController boardController = new BoardController();
         boardController.init();
         ApplicationContext.addBean("/board", boardController);
-       
+        
         RoomController roomController = new RoomController();
         roomController.init();
         ApplicationContext.addBean("/room", roomController); 
-        
+
         DataSource ds = new DataSource();
         ds.setDriverClassName("com.mysql.jdbc.Driver");
         ds.setUrl("jdbc:mysql://localhost:3306/studydb");
@@ -66,9 +71,6 @@ public class App {
         ds.setPassword("1111");
         
         ApplicationContext.addBean("mysqlDataSource", ds);
-        
-        
-        
     }
 
     void service() throws Exception {
@@ -81,9 +83,6 @@ public class App {
             new HttpAgent(ss.accept()).start();
         }
     }
-
-   
-
 
     private void request(String command, PrintWriter out) {
 
@@ -131,14 +130,12 @@ public class App {
         app.service();
     }
     
-   
     class HttpAgent extends Thread {
         Socket socket;
         
         public HttpAgent(Socket socket) {
             this.socket = socket;
         }
-   
         
         @Override
         public void run() {
@@ -149,9 +146,12 @@ public class App {
                     PrintWriter out = new PrintWriter(
                             new BufferedOutputStream(socket.getOutputStream()));
                     ) {
-               
+                // HTTP 요청 읽기
+                // => request-line 읽기
+                // 예) GET /score/list HTTP/1.1 (CRLF)
                 String command = in.readLine().split(" ")[1];
 
+                // => header 읽기
                 String header = null;
                 while (true) {
                     header = in.readLine();
@@ -167,16 +167,16 @@ public class App {
                 // => 콘텐츠의 MIME 타입과 인코딩 문자집합에 대한 정보를 출력한다. 
                 out.println("Content-Type:text/plain;charset=UTF-8");
                 
+                // => 헤더의 끝임을 표시하기 위해 빈 줄을 출력한다.
+                out.println();
                 
-                out.println(); // 응답을 완료를 표시하기 위해 빈줄 보냄.
-                
+                // 명령어에 따라 처리를 분기하여 콘텐츠를 출력한다.
                 if (command.equals("/")) {
                     hello(command, out);
                 } else {
                     request(command, out);
-                 }
-                
-                out.println();
+                }
+                out.println(); // 응답을 완료를 표시하기 위해 빈줄 보냄.
                 out.flush();
                 
             } catch (Exception e) {

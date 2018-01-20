@@ -15,15 +15,21 @@ public class ScoreViewController implements PageController {
     
     @Autowired ScoreDao scoreDao;
     
-    @Override
-    public String service (HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String service(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         
         int no = Integer.parseInt(request.getParameter("no"));
         Score score = scoreDao.selectOne(no);
-        
         request.setAttribute("score", score);
-        
         return "/score/view.jsp";        
-        
     }
 }
+
+
+
+
+
+
+
+

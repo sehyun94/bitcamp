@@ -13,14 +13,21 @@ import java100.app.dao.BoardDao;
 public class BoardDeleteController implements PageController {
     
     @Autowired BoardDao boardDao;
-    @Override
-    public String service (HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+    
+    public String service(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         int no = Integer.parseInt(request.getParameter("no"));
         boardDao.delete(no);
         
         return "redirect:list.do";
-        
-        
     }
 }
+
+
+
+
+
+
+
+

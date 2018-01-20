@@ -12,17 +12,19 @@ import javax.servlet.http.HttpServletResponse;
 import java100.app.dao.ScoreDao;
 import java100.app.domain.Score;
 import java100.app.listener.ContextLoaderListener;
+
 @SuppressWarnings("serial")
-@WebServlet(urlPatterns="/score/add")
+@WebServlet(urlPatterns="/score/add")   
 public class ScoreAddServlet extends HttpServlet {
     
-    
-    @Override
-    public void service(HttpServletRequest request, HttpServletResponse response)
-                throws ServletException, IOException {
+    public void service(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
         
-        ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(ScoreDao.class);
-        response.setContentType("text/plain;charset=UTF-8");        
+        ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(
+                ScoreDao.class);
+        
+        response.setContentType("text/plain;charset=UTF-8");
+        
         PrintWriter out = response.getWriter();
         out.println("[성적 등록]");
         

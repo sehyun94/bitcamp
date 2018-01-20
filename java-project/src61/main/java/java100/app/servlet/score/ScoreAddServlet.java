@@ -12,13 +12,14 @@ import java100.app.dao.ScoreDao;
 import java100.app.domain.Score;
 import java100.app.listener.ContextLoaderListener;
 
-@SuppressWarnings("serial")
 @WebServlet("/score/add")
+@SuppressWarnings("serial")
 public class ScoreAddServlet extends HttpServlet {
     
-    
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(
+            HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
         ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(
                 ScoreDao.class);
         
@@ -27,11 +28,18 @@ public class ScoreAddServlet extends HttpServlet {
         score.setKor(Integer.parseInt(request.getParameter("kor")));
         score.setEng(Integer.parseInt(request.getParameter("eng")));
         score.setMath(Integer.parseInt(request.getParameter("math")));
-
+        
         scoreDao.insert(score);
         
+        // 프론트 컨트롤러가 실행할 JSP URL을 등록한다.
         request.setAttribute("viewName", "redirect:list.do");
-        
-        
     }
 }
+
+
+
+
+
+
+
+

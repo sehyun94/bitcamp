@@ -18,13 +18,20 @@ public class ScoreListController {
     @Autowired ScoreDao scoreDao;
     
     @RequestMapping
-    public String list (HttpServletRequest request,
-                            HttpServletResponse response) throws Exception {
-        
+    public String list(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+
         List<Score> list = scoreDao.selectList();
         request.setAttribute("list", list);
         return "/score/list.jsp";
-
-        
     }
 }
+
+
+
+
+
+
+
+

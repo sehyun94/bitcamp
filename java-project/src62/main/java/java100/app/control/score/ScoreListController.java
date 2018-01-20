@@ -18,13 +18,20 @@ public class ScoreListController implements PageController {
     @Autowired ScoreDao scoreDao;
     
     @Override
-    public String service (HttpServletRequest request,
-                            HttpServletResponse response) throws Exception {
-        
+    public String service(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
+
         List<Score> list = scoreDao.selectList();
         request.setAttribute("list", list);
         return "/score/list.jsp";
-
-        
     }
 }
+
+
+
+
+
+
+
+

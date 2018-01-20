@@ -2,7 +2,6 @@ package java100.app.servlet.score;
 
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,13 +12,14 @@ import java100.app.dao.ScoreDao;
 import java100.app.domain.Score;
 import java100.app.listener.ContextLoaderListener;
 
-@SuppressWarnings("serial")
 @WebServlet("/score/update")
+@SuppressWarnings("serial")
 public class ScoreUpdateServlet extends HttpServlet {
     
-    
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(
+            HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
         ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(
                 ScoreDao.class);
         
@@ -29,10 +29,19 @@ public class ScoreUpdateServlet extends HttpServlet {
         score.setKor(Integer.parseInt(request.getParameter("kor")));
         score.setEng(Integer.parseInt(request.getParameter("eng")));
         score.setMath(Integer.parseInt(request.getParameter("math")));
-
+        
         scoreDao.update(score);
         
+        // 프론트 컨트롤러가 실행할 JSP URL을 등록한다.
         request.setAttribute("viewName", "redirect:list.do");
         
     }
 }
+
+
+
+
+
+
+
+

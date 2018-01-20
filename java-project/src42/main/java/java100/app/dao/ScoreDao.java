@@ -19,7 +19,7 @@ public class ScoreDao {
         ResultSet rs = null;
         
         try {
-            ds = (DataSource)ApplicationContext.getBean("mysqlDataSource");
+            ds = (DataSource) ApplicationContext.getBean("mysqlDataSource"); 
             con = ds.getConnection();
             pstmt = con.prepareStatement(
                     "select no,name,kor,eng,math from ex_score");
@@ -57,7 +57,7 @@ public class ScoreDao {
         PreparedStatement pstmt = null;
         
         try {
-            ds = (DataSource)ApplicationContext.getBean("mysqlDataSource");
+            ds = (DataSource) ApplicationContext.getBean("mysqlDataSource"); 
             con = ds.getConnection();
             pstmt = con.prepareStatement(
                     "insert into ex_score(name,kor,eng,math) values(?,?,?,?)");
@@ -83,7 +83,7 @@ public class ScoreDao {
         PreparedStatement pstmt = null;
         
         try {
-            ds = (DataSource)ApplicationContext.getBean("mysqlDataSource");
+            ds = (DataSource) ApplicationContext.getBean("mysqlDataSource"); 
             con = ds.getConnection();
             pstmt = con.prepareStatement(
                     "update ex_score set name=?,kor=?,eng=?,math=? where no=?");
@@ -99,7 +99,7 @@ public class ScoreDao {
             throw new DaoException(e);
         } finally {
             try {pstmt.close();} catch (Exception e) {}
-           ds.returnConnection(con);
+            ds.returnConnection(con);
         }
     }
     
@@ -109,7 +109,7 @@ public class ScoreDao {
         PreparedStatement pstmt = null;
         
         try {
-            ds = (DataSource)ApplicationContext.getBean("mysqlDataSource");
+            ds = (DataSource) ApplicationContext.getBean("mysqlDataSource"); 
             con = ds.getConnection();
             pstmt = con.prepareStatement(
                     "delete from ex_score where no=?");
@@ -133,7 +133,7 @@ public class ScoreDao {
         ResultSet rs = null;
         
         try {
-            ds = (DataSource)ApplicationContext.getBean("mysqlDataSource");
+            ds = (DataSource) ApplicationContext.getBean("mysqlDataSource"); 
             con = ds.getConnection();
             pstmt = con.prepareStatement(
                     "select no,name,kor,eng,math from ex_score where no=?");

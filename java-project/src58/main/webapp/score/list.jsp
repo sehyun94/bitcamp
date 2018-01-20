@@ -3,8 +3,6 @@
     contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true"%>
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,27 +29,23 @@
 <jsp:useBean id="list" type="java.util.List<Score>" scope="request"></jsp:useBean>
 <%
 try {
-   
     for (Score score : list) {
         pageContext.setAttribute("score", score);
 %>
-        
-        <tr> 
+    <tr>
         <td>${score.no}</td>
         <td><a href='view?no=${score.no}'>${score.name}</a></td>
         <td>${score.sum}</td>
         <td>${score.aver}</td>
-        </tr>
-                
+    </tr>
 <%
     }
     
 } catch (Exception e) {
-    e.printStackTrace(); // for developer
-    out.println(e.getMessage()); // for user
-}
-  
-%>
+    e.printStackTrace(); // for developer%>
+    <%=e.getMessage()%>
+<%
+}%>
 
 </tbody>
 </table>
@@ -59,7 +53,19 @@ try {
 <jsp:include page="/footer.jsp"/>
 
 </div>
-<%@ include file="../jslib.txt" %>
+
+<%@ include file="../jslib.txt"%>
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+

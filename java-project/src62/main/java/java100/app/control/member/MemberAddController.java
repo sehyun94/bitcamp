@@ -15,16 +15,25 @@ public class MemberAddController implements PageController {
     
     @Autowired MemberDao memberDao;
     
-    @Override
-    public String service (HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String service(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         
         Member member = new Member();
         member.setName(request.getParameter("name"));
         member.setEmail(request.getParameter("email"));
         member.setPassword(request.getParameter("password"));
+        
         memberDao.insert(member);
         
         return "redirect:list.do";
-        
     }
 }
+
+
+
+
+
+
+
+

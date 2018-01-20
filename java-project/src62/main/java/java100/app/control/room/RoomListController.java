@@ -14,17 +14,26 @@ import java100.app.domain.Room;
 
 @Component("/room/list")
 public class RoomListController implements PageController {
+    
     @Autowired RoomDao roomDao;
     
-    @Override
-    public String service (HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+    public String service(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         List<Room> list = roomDao.selectList();
         
-        // 작업한 결과를 JSP에 넘겨주기 위해 ServletRequest 보관소에 저장한다,
+        // 작업한 결과를 JSP에게 넘겨주기 위해 ServletRequest 보관소에 저장한다.
         request.setAttribute("list", list);
         
         return "/room/list.jsp";
         
     }
 }
+
+
+
+
+
+
+
+

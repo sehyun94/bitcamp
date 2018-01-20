@@ -14,35 +14,45 @@ import java100.app.domain.Board;
 import java100.app.listener.ContextLoaderListener;
 
 @SuppressWarnings("serial")
-       
-@WebServlet(urlPatterns="/board/update")// 이클래스의 객체를 자동 생성해야함을 표시
+@WebServlet("/board/update")
 public class BoardUpdateServlet extends HttpServlet {
-
+    
     @Override
-    public void service(HttpServletRequest request, HttpServletResponse response)
+    public void service(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
 
-        BoardDao boardDao = ContextLoaderListener.iocContainer.getBean(BoardDao.class);
+        BoardDao boardDao = ContextLoaderListener.iocContainer.getBean(
+                BoardDao.class);
+        
         response.setContentType("text/plain;charset=UTF-8");
+        
         PrintWriter out = response.getWriter();
         out.println("[게시물 변경]");
-
+        
         try {
             Board board = new Board();
             board.setNo(Integer.parseInt(request.getParameter("no")));
             board.setTitle(request.getParameter("title"));
             board.setContent(request.getParameter("content"));
-
+            
             if (boardDao.update(board) > 0) {
                 out.println("변경하였습니다.");
             } else {
-                out.printf("'%s'번 게시물이 없습니다.\n", board.getNo());
+                out.printf("'%d'번 게시물이 없습니다.\n", board.getNo());
             }
-
+            
         } catch (Exception e) {
             e.printStackTrace(); // for developer
             out.println(e.getMessage()); // for user
         }
-
     }
+
 }
+
+
+
+
+
+
+
+

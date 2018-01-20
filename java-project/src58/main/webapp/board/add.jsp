@@ -1,46 +1,29 @@
-<%@page import="java100.app.domain.Board"%>
-<%@page import="java100.app.listener.ContextLoaderListener"%>
-<%@page import="java100.app.dao.BoardDao"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" 
+    contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true"%>
-
 <!DOCTYPE html>
 <html>
 <head>
-<title>게시판관리</title>
+<title>게시판</title>
 <link rel='stylesheet' href='../node_modules/bootstrap/dist/css/bootstrap.min.css'>
 <link rel='stylesheet' href='../css/common.css'>
+</head>
 <body>
 <div class='container'>
-<%
- 
-%>
+
 <jsp:include page="/header.jsp"/>
-<h1>[게시물 등록]</h1>
-<%
-try {
-   
-%>    
-    <p>저장하였습니다.</p>
 
-<%
-} catch (Exception e) {
-    e.printStackTrace(); %>
- <%= e.getMessage() %> 
-   <% } %>
+<h1>게시물 등록 결과</h1>
+<p>저장하였습니다.</p>
 
-<div class='form-group row'>
-<div class='col-sm-10'>
-<a href='list' class='btn btn-primary btn-sm'>목록</a>
-</div>
-</div>
+<p><a href='list' class='btn btn-primary btn-sm'>목록</a></p>
 
 <jsp:include page="/footer.jsp"/>
+
 </div>
 
-<%@ include file="../jslib.txt" %>
+<%@ include file="../jslib.txt"%>
 
 </body>
 </html>
-

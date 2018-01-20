@@ -11,11 +11,13 @@ import java100.app.dao.BoardDao;
 import java100.app.domain.Board;
 
 @Component("/board/update")
-public class BoardUpdateController implements PageController{
+public class BoardUpdateController implements PageController {
     
     @Autowired BoardDao boardDao;
-    @Override
-    public String service (HttpServletRequest request, HttpServletResponse response) throws Exception {
+    
+    public String service(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         
         Board board = new Board();
         board.setNo(Integer.parseInt(request.getParameter("no")));
@@ -25,7 +27,13 @@ public class BoardUpdateController implements PageController{
         boardDao.update(board);
         
         return "redirect:list.do";
-        
-    
     }
 }
+
+
+
+
+
+
+
+

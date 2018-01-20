@@ -11,16 +11,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import java100.app.dao.ScoreDao;
 import java100.app.listener.ContextLoaderListener;
+
 @SuppressWarnings("serial")
-@WebServlet(urlPatterns="/score/delete")
+@WebServlet(urlPatterns="/score/delete")   
 public class ScoreDeleteServlet extends HttpServlet {
     
-  
-    @Override
-    public void service(HttpServletRequest request, HttpServletResponse response)
-                throws ServletException, IOException {
+    public void service(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
         
-        ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(ScoreDao.class);
+        ScoreDao scoreDao = ContextLoaderListener.iocContainer.getBean(
+                ScoreDao.class);
+        
         response.setContentType("text/plain;charset=UTF-8");
         
         PrintWriter out = response.getWriter();
@@ -40,8 +41,6 @@ public class ScoreDeleteServlet extends HttpServlet {
             out.println(e.getMessage()); // for user
         }
     }
-
-   
 }
 
 

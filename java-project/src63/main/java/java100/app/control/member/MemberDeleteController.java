@@ -15,14 +15,20 @@ public class MemberDeleteController {
     @Autowired MemberDao memberDao;
     
     @RequestMapping
-    public String delete (HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+    public String delete(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         int no = Integer.parseInt(request.getParameter("no"));
         memberDao.delete(no);
         
         return "redirect:list.do";
-        
-        
-        
     }
 }
+
+
+
+
+
+
+
+

@@ -14,19 +14,27 @@ import java100.app.domain.Member;
 public class MemberUpdateController implements PageController {
     
     @Autowired MemberDao memberDao;
-    @Override
-    public String service (HttpServletRequest request, HttpServletResponse response) throws Exception {
+    
+    public String service(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         
         Member member = new Member();
         member.setNo(Integer.parseInt(request.getParameter("no")));
         member.setName(request.getParameter("name"));
         member.setEmail(request.getParameter("email"));
         member.setPassword(request.getParameter("password"));
-       
+        
         memberDao.update(member);
         
         return "redirect:list.do";
-       
-        
     }
 }
+
+
+
+
+
+
+
+

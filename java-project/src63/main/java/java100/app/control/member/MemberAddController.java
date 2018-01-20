@@ -16,15 +16,25 @@ public class MemberAddController {
     @Autowired MemberDao memberDao;
     
     @RequestMapping
-    public String add (HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String add(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         
         Member member = new Member();
         member.setName(request.getParameter("name"));
         member.setEmail(request.getParameter("email"));
         member.setPassword(request.getParameter("password"));
+        
         memberDao.insert(member);
         
         return "redirect:list.do";
-        
     }
 }
+
+
+
+
+
+
+
+

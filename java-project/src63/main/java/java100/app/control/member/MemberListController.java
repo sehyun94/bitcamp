@@ -18,13 +18,23 @@ public class MemberListController {
     @Autowired MemberDao memberDao;
     
     @RequestMapping
-    public String list (HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+    public String list(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         List<Member> list = memberDao.selectList();
         
+        // 작업한 결과를 JSP에게 넘겨주기 위해 ServletRequest 보관소에 저장한다.
         request.setAttribute("list", list);
         
         return "/member/list.jsp";
         
     }
 }
+
+
+
+
+
+
+
+

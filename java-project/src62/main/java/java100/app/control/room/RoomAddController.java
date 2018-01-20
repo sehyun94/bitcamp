@@ -15,18 +15,25 @@ public class RoomAddController implements PageController {
     
     @Autowired RoomDao roomDao;
     
-    @Override
-    public String service (HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String service(
+            HttpServletRequest request, 
+            HttpServletResponse response) throws Exception {
         
         Room room = new Room();
         room.setLocation(request.getParameter("location"));
         room.setName(request.getParameter("name"));
         room.setCapacity(Integer.parseInt(request.getParameter("capacity")));
-
+        
         roomDao.insert(room);
         
         return "redirect:list.do";
-   
-        
     }
 }
+
+
+
+
+
+
+
+

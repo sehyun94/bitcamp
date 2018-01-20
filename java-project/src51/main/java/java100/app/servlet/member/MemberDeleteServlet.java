@@ -11,17 +11,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import java100.app.dao.MemberDao;
 import java100.app.listener.ContextLoaderListener;
+
 @SuppressWarnings("serial")
-@WebServlet(urlPatterns="/member/delete") // 이클래스의 객체를 자동 생성해야함을 표시
+@WebServlet("/member/delete")
 public class MemberDeleteServlet extends HttpServlet {
     
-    
-    @Override
-    public void service(HttpServletRequest request, HttpServletResponse response)
-                throws ServletException, IOException {
-
-        MemberDao memberDao = ContextLoaderListener.iocContainer.getBean(MemberDao.class);
-        response.setContentType("text/palin;charset=UTF-8");
+    public void service(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        
+        MemberDao memberDao = ContextLoaderListener.iocContainer.getBean(
+                MemberDao.class);
+        
+        response.setContentType("text/plain;charset=UTF-8");
         
         PrintWriter out = response.getWriter();
         out.println("[회원 삭제]");
